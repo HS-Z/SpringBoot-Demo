@@ -1,0 +1,112 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<!--首页加载不起作用-->
+		<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+	</head>
+
+	<div>
+
+		<div >
+
+			<!--导航栏-->
+			<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<i class="ace-icon fa fa-list-ul home-icon"></i>
+						<a href="#">系统管理</a>
+					</li>
+					<li class="active">角色管理</li>
+				</ul>
+			</div>
+
+
+			<div class="col-xs-12">
+
+				<div class="row marginTop">
+					<div class="col-xs-2">
+						<input type="text" class="form-control" id="name" name="name" placeholder="请输入角色编码或名称"/>
+					</div>
+					<div class="col-xs-3">
+						<div class="input-group">
+							<input type="text" class="form-control" name="keywords" placeholder="一些其他信息" />
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default no-border btn-sm">
+									<i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-1 pull-right menuOther">
+						<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新增角色 </a>
+					</div>
+				</div>
+
+				<br/>
+
+				<table id="grid-table"></table>
+
+				<div id="grid-pager"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+</html>
+
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+    $(function(){
+        run_jqGrid_function();
+
+        $("#grid-table").jqGrid('setLabel','rn', '序号', {'text-align':'center','vertical-align':'middle'},'');   //设置序号
+    })
+
+
+    function run_jqGrid_function() {
+        jQuery("#grid-table").jqGrid({
+            url: 'userInfo/getUserInfoList',
+            postData: {code:"seller"},
+            datatype: "json",
+            colModel: [
+                {label:'角色编码',name: 'roleCode', index: 'roleCode', align: "left", editable: true},
+                {label:'角色名称',name: 'roleName', index: 'roleName', align: "left", editable: true},
+            ],
+            pager: "#grid-pager",
+            autowidth: true,
+            height: 'auto',
+            viewrecords: true,
+            // caption: "角色列表",
+            sortable: true,
+            sortname:'userName', //设置默认的排序列
+            sortorder:'asc',
+            rownumbers:true,   //显示序列号
+            altRows:true,  //隔行变色
+            rowNum:20,
+            rowList:[10,30,50,100],
+        });
+    }
+
+
+    /*$(".menuOther").click(function (e) {
+
+        e.preventDefault();
+        var url = $(this).attr("href");//拿到对应的URL了
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (result) {
+                $(".main-content-inner").html(result).show();
+            },
+            error: function (xhr) {
+                $(".main-content-inner").html(xhr.responseText).show();
+            }
+        });
+
+    });*/
+</script>

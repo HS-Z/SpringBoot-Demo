@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zhs.demo.dao.basic.UserRoleInfoDao">
+
+    <resultMap id="userRoleInfoMap" type="com.zhs.demo.model.basic.UserRoleInfo">
+        <result property="id" column="id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+        <result property="userId" column="userId"/>
+        <result property="roleId" column="role_id"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+
+    <!--根据用户id查询用户角色关系信息-->
+    <select id="findUserRoleInfoByUserId" resultMap="userRoleInfoMap" resultType="list">
+        SELECT * FROM t_zhs_user_role_info u
+        <where>
+            u.user_id = #{userId}
+        </where>
+    </select>
+
+    <!--根据角色id查询用户角色关系信息-->
+    <select id="findUserRoleInfoByRoleId" resultMap="userRoleInfoMap" resultType="list">
+        SELECT * FROM t_zhs_user_role_info u
+        <where>
+            u.role_id = #{roleId}
+        </where>
+    </select>
+
+</mapper>

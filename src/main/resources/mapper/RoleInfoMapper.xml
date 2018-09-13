@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zhs.demo.dao.basic.RoleInfoDao">
+
+
+    <resultMap id="roleInfoMap" type="com.zhs.demo.model.basic.RoleInfo">
+        <result property="id" column="id"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleType" column="role_type"/>
+        <result property="parentRoleId" column="parent_role_id"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+
+    <select id="getAllRoleInfo" resultMap="roleInfoMap" resultType="list">
+        SELECT * FROM t_zhs_role_info
+    </select>
+
+
+</mapper>
