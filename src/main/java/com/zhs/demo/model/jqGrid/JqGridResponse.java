@@ -10,7 +10,7 @@ public class JqGridResponse {
     private long records; //总记录数
     private List<Object> rows;  //当前页的记录集合
     private Object footer;  //页脚信息
-    private int pageRows = 20;  //每页显示记录数
+    private int pageRows = 15;  //每页显示记录数
 
 
     public int getTotal() {

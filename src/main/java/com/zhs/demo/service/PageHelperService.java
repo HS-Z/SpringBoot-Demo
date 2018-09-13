@@ -34,7 +34,7 @@ public class PageHelperService {
 
         int rows = jqGridRequest.getRows();  //每页显示记录数
         if (rows <= 0){
-            rows = 20;
+            rows = 15;
         }
 
         String sord = jqGridRequest.getSord();  //排序的规则

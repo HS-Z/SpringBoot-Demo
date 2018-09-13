@@ -25,11 +25,11 @@
 
 				<div class="row marginTop">
 					<div class="col-xs-2">
-						<input type="text" class="form-control" id="name" name="name" placeholder="请输入角色编码或名称"/>
+						<input type="text" class="form-control" id="name" name="name" placeholder="请输入角色编码或名称" autocomplete="off"/>
 					</div>
 					<div class="col-xs-3">
 						<div class="input-group">
-							<input type="text" class="form-control" name="keywords" placeholder="一些其他信息" />
+							<input type="text" class="form-control" name="keywords" placeholder="一些其他信息" autocomplete="off"/>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-default no-border btn-sm">
 									<i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
@@ -37,8 +37,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-1 pull-right menuOther">
-						<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新增角色 </a>
+					<div class="col-xs-2 pull-right">
+						<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>
 					</div>
 				</div>
 
@@ -87,8 +87,8 @@
             sortorder:'asc',
             rownumbers:true,   //显示序列号
             altRows:true,  //隔行变色
-            rowNum:20,
-            rowList:[10,30,50,100],
+            rowNum:15,
+            rowList:[15,30,50,100],
         });
     }
 

@@ -4,7 +4,7 @@ package com.zhs.demo.model.jqGrid;
 public class JqGridRequest {
 
     private int page = 1;   //当前页数
-    private int rows = 20;  //每页显示记录数
+    private int rows = 15;  //每页显示记录数
     private int totalPage;  //总页数
     private String sord = "desc";  //排序的方式
     private String sidx = "id";  //排序的属性
