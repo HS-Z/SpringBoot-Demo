@@ -10,6 +10,7 @@
         <result property="creator" column="creator"/>
         <result property="createDate" column="create_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
+        <result property="deleted" column="deleted"/>
         <result property="roleCode" column="role_code"/>
         <result property="roleName" column="role_name"/>
         <result property="roleType" column="role_type"/>
@@ -18,8 +19,19 @@
     </resultMap>
 
 
-    <select id="getAllRoleInfo" resultMap="roleInfoMap" resultType="list">
-        SELECT * FROM t_zhs_role_info
+    <!--查询角色列表-->
+    <select id="getAllRoleInfo" resultType="hashMap" parameterType="com.zhs.demo.model.jqGrid.JqGridQueryVo">
+        SELECT role.id as id, role.role_code as roleCode, role.role_name as roleName, role.role_type as roleType,
+        role.parent_role_id as parentRoleId, role.description as description, role.creator as creator,
+        role.create_date as createDate, role.last_update_date as lastUpdateDate, role.deleted as deleted
+        FROM t_zhs_role_info role
+        <where>
+            1=1
+            <if test=" name != null and name != '' ">
+                and ( role.role_code LIKE CONCAT('%', CONCAT(#{name}, '%')) or role.role_name LIKE CONCAT('%', CONCAT(#{name}, '%')))
+            </if>
+        </where>
+
     </select>
 
 

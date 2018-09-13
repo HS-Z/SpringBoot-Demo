@@ -29,9 +29,9 @@
 					</div>
 					<div class="col-xs-3">
 						<div class="input-group">
-							<input type="text" class="form-control" name="keywords" placeholder="一些其他信息" autocomplete="off"/>
+							<input type="text" class="form-control" id="criteriaText" name="criteriaText" placeholder="一些其他信息" autocomplete="off"/>
 							<div class="input-group-btn">
-								<button type="button" class="btn btn-default no-border btn-sm">
+								<button type="button" class="btn btn-default no-border btn-sm" onclick="search()">
 									<i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
 								</button>
 							</div>
@@ -83,13 +83,24 @@
             viewrecords: true,
             // caption: "角色列表",
             sortable: true,
-            sortname:'userName', //设置默认的排序列
+            sortname:'roleCode', //设置默认的排序列
             sortorder:'asc',
             rownumbers:true,   //显示序列号
             altRows:true,  //隔行变色
-            rowNum:15,
+            rowNum:15,  //每页显示记录数
             rowList:[15,30,50,100],
         });
+    }
+
+
+    function search() {
+        var params = {name:$("#name").val(),criteriaText:$("#criteriaText").val()};
+        $("#grid-table").jqGrid('clearGridData');//清空表格
+        $("#grid-table").jqGrid('setGridParam',{
+            datatype:'json',
+            postData:params,//查询条件
+            page:1
+        }).trigger("reloadGrid");
     }
 
 

@@ -47,10 +47,9 @@ public class PageHelperService {
             sidx = "id";
         }
 
-        String sortRule = sidx.concat(" ").concat(sord);
+        String sortRule = sidx.concat(" ").concat(sord);  //排序的语句
 
-//        Page<T> pageHelper = PageHelper.startPage(page,rows,sortRule);
-        Page<T> pageHelper = PageHelper.startPage(page,rows);
+        Page<T> pageHelper = PageHelper.startPage(page,rows,sortRule);
 
         return pageHelper;
 

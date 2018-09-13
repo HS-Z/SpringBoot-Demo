@@ -27,7 +27,7 @@ public class RoleInfoService {
         JqGridResponse jqGridResponse = new JqGridResponse();
 
         Page<Object> pageHelper=pageHelperService.myBatisPageHelper(jqGridQueryVo);
-        List<Object> roleInfoList=roleInfoDao.getAllRoleInfo();
+        List<Object> roleInfoList=roleInfoDao.getAllRoleInfo(jqGridQueryVo);
 
         jqGridResponse = pageHelperService.pageHelper(jqGridResponse,pageHelper);
 
