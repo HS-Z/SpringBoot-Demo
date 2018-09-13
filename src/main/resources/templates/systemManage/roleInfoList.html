@@ -1,5 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
+<style>
+	.modal-dialog {
+		width: 700px;
+		margin: 30px auto;
+	}
+</style>
+
 	<div >
 
 		<!--导航栏-->
@@ -30,8 +37,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-2 pull-right">
-					<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right menuOther"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>
+				<div class="col-xs-1 pull-right">
+					<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right menuOther"
+					   data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#Modal">
+						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>
+					<!--<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right menuOther">
+						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>-->
 				</div>
 			</div>
 
@@ -45,10 +56,16 @@
 
 	</div>
 
+	<!-- 弹出框 -->
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+
 </html>
 
 
-<!-- inline scripts related to this page -->
 <script type="text/javascript">
 
     $(function(){
@@ -94,7 +111,7 @@
     }
 
 
-    $(".menuOther").click(function (e) {
+    /*$(".menuOther").click(function (e) {
 
         e.preventDefault();
         var url = $(this).attr("href");//拿到对应的URL了
@@ -109,5 +126,5 @@
             }
         });
 
-    });
+    });*/
 </script>

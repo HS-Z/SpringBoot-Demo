@@ -1,43 +1,111 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-	<head>
-		<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-	</head>
 
 	<body class="no-skin">
 
 		<div>
-			<script type="text/javascript">
-				try{ace.settings.loadState('main-container')}catch(e){}
-			</script>
 
-			<div >
+		<!--导航栏-->
+		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li class="active">新增角色</li>
+			</ul>
+		</div>
 
-				<!--导航栏-->
-				<div class="breadcrumbs ace-save-state" id="breadcrumbs">
-					<ul class="breadcrumb">
-						<li class="active">新增角色</li>
-					</ul>
+
+		<div class="breadcrumbs col-xs-12">
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">角色编码 <span style="color: red">*</span></label>
 				</div>
-
-
-				<div class="col-xs-12">
-
-					<div class="row">
-						<div class="col-xs-2">
-							<label>角色编码</label>
-							<input type="text" class="form-control" id="name" name="name"/>
-						</div>
-					</div>
-
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="roleCode" name="roleCode"/>
 				</div>
-				
 			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">角色名称 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="roleName" name="roleName"/>
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">角色类型 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="roleType" name="roleType"/>
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="pull-right vertical-center">角色描述 <span style="color: red">&nbsp;</span></label>
+				</div>
+				<div class="col-xs-8">
+					<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px"></textarea>
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-6 pull-left">
+					<div class="col-xs-4 pull-right">
+						<button class="form-control pull-right btn btn-primary orange">确认</button>
+					</div>
+				</div>
+				<div class="col-xs-6 pull-right">
+					<div class="col-xs-4 pull-left">
+						<button class="form-control pull-left btn" onclick="history.back()">取消</button>
+					</div>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
 
 		</div>
 
-		<!-- inline scripts related to this page -->
+	</div>
+
+
+		<div style="display: none">
+			<style>
+				/*内容垂直居中*/
+				.vertical-center{
+					height: 34px;
+					line-height: 34px;
+					overflow: hidden;
+				}
+
+			</style>
+		</div>
+
+
 		<script type="text/javascript">
+
+			//textarea的高度随内容发生改变，不会产生滚动条
+            $("#description").focus(function () {
+                $('textarea').each(function () {
+                    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+                }).on('input', function () {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            });
 
 
 
