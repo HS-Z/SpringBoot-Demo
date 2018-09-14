@@ -50,6 +50,12 @@ public class RoleInfoService {
     }
 
 
+    public RoleInfo findRoleInfoById(Long id){
+        RoleInfo roleInfo = roleInfoRepository.getOne(id);
+        return roleInfo;
+    }
+
+
     public Json saveOrUpdate(RoleInfo roleInfo){
 
         SessionInfo sessionInfo = sessionUtils.getSessionInfo();

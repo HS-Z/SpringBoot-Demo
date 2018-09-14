@@ -55,8 +55,12 @@ public class RoleInfoController {
 
 
 
-    @RequestMapping(value = "addRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
-    public String addRoleInfo(Model model){
+    @RequestMapping(value = "toSaveOrUpdate", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toSaveOrUpdate(Model model, Long roleId){
+        if (roleId != null){
+            RoleInfo roleInfo = roleInfoService.findRoleInfoById(roleId);
+            model.addAttribute("roleInfo",roleInfo);
+        }
         String roleCode="R1809140001";
         model.addAttribute("roleCode",roleCode);
         return "systemManage/addRoleInfo";

@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				<div class="col-xs-1 pull-right">
-					<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right menuOther"
+					<a th:href="@{roleInfo/toSaveOrUpdate}" class="form-control btn btn-primary pull-right"
 					   data-toggle="modal" data-target="#Modal">
 						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>
 					<!--<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right menuOther">
@@ -83,6 +83,7 @@
             colModel: [
                 {label:'角色编码',name: 'roleCode', index: 'roleCode', align: "left", editable: true},
                 {label:'角色名称',name: 'roleName', index: 'roleName', align: "left", editable: true},
+                {label:'操作',name: 'act', index: 'act', sortable: false, formatter: act_f}
             ],
             pager: "#grid-pager",
             autowidth: true,
@@ -111,20 +112,21 @@
     }
 
 
-    /*$(".menuOther").click(function (e) {
+    function act_f(cellvalue, option, rowObject) {
+        return '<a href="#roleInfo/toSaveOrUpdate?roleId='+rowObject.id+'" title="编辑" class="menuGap"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>'  +
+            '<a href="#" onclick="Delete('+rowObject.id+')" title="删除" class="menuGap"><i class="fa fa-trash-o fa-2x red" aria-hidden="true"></i></i></a>' ;
+    }
 
-        e.preventDefault();
-        var url = $(this).attr("href");//拿到对应的URL了
-        $.ajax({
-            url: url,
-            type: "GET",
-            success: function (result) {
-                $(".main-content-inner").html(result).show();
-            },
-            error: function (xhr) {
-                $(".main-content-inner").html(xhr.responseText).show();
+
+    function Delete(obj) {
+        $.post("basic/messageAction/deleteMessageById", "id=" + obj, function (data) {
+            if (data.success) {
+                $.successBox("删除成功");
+                $("#jqgrid").jqReload();
+            } else {
+                $.warningBox("删除失败");
             }
-        });
+        })
+    }
 
-    });*/
 </script>
