@@ -1,0 +1,7 @@
+
+
+点击model层以外的空白区域，隐藏model弹出层
+<a data-toggle="modal" data-target="#Modal">&nbsp;新增角色</a>
+
+点击model层以外的空白区域，不隐藏model弹出层
+<a data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#Modal">&nbsp;新增角色</a>
