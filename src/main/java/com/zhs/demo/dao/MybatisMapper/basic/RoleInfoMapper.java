@@ -1,11 +1,11 @@
-package com.zhs.demo.dao.basic;
+package com.zhs.demo.dao.MybatisMapper.basic;
 
-
+import com.zhs.demo.model.basic.RoleInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 
 import java.util.List;
 
-public interface RoleInfoDao {
+public interface RoleInfoMapper {
 
 
     /**
@@ -16,8 +16,10 @@ public interface RoleInfoDao {
     List<Object> getAllRoleInfo(JqGridQueryVo jqGridQueryVo);
 
 
-
-
+    /**
+     *
+     */
+    RoleInfo findRoleInfoByRoleCode(String roleCode);
 
 
 }

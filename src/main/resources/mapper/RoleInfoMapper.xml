@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 
-<mapper namespace="com.zhs.demo.dao.basic.RoleInfoDao">
+<mapper namespace="com.zhs.demo.dao.MybatisMapper.basic.RoleInfoMapper">
 
 
     <resultMap id="roleInfoMap" type="com.zhs.demo.model.basic.RoleInfo">
@@ -31,7 +31,11 @@
                 and ( role.role_code LIKE CONCAT('%', CONCAT(#{name}, '%')) or role.role_name LIKE CONCAT('%', CONCAT(#{name}, '%')))
             </if>
         </where>
+    </select>
 
+
+    <select id="findRoleInfoByRoleCode" resultMap="roleInfoMap" parameterType="string">
+        SELECT * FROM  t_zhs_role_info WHERE role_code = #{roleCode}
     </select>
 
 

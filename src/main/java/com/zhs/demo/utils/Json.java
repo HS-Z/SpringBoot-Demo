@@ -76,6 +76,14 @@ public class Json implements Serializable {
         return j;
     }
 
+    public static Json ok(String msg, Object obj) {
+        Json j = new Json();
+        j.setSuccess(true);
+        j.setMsg(msg);
+        j.setObj(obj);
+        return j;
+    }
+
     public static Json fail() {
         Json j = new Json();
         j.setSuccess(false);

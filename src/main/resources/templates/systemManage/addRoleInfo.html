@@ -8,72 +8,78 @@
 		</ul>
 	</div>
 
-
 	<div class="col-xs-12" id="formData" style="background: white">
 
-		<br/>
+		<form>
 
-		<div class="row">
-			<div class="col-xs-3 ">
-				<label class="pull-right vertical-center">角色编码 <span style="color: red">*</span></label>
-			</div>
-			<div class="col-xs-8">
-				<input type="text" class="form-control pull-left" id="roleCode" name="roleCode"/>
-			</div>
-		</div>
+			<br/>
 
-		<br/>
-
-		<div class="row">
-			<div class="col-xs-3 ">
-				<label class="pull-right vertical-center">角色名称 <span style="color: red">*</span></label>
-			</div>
-			<div class="col-xs-8">
-				<input type="text" class="form-control pull-left" id="roleName" name="roleName"/>
-			</div>
-		</div>
-
-		<br/>
-
-		<div class="row">
-			<div class="col-xs-3 ">
-				<label class="pull-right vertical-center">角色类型 <span style="color: red">*</span></label>
-			</div>
-			<div class="col-xs-8">
-				<input type="text" class="form-control pull-left" id="roleType" name="roleType"/>
-			</div>
-		</div>
-
-		<br/>
-
-		<div class="row">
-			<div class="col-xs-3">
-				<label class="pull-right vertical-center">角色描述 <span style="color: red">&nbsp;</span></label>
-			</div>
-			<div class="col-xs-8">
-				<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px"></textarea>
-			</div>
-		</div>
-
-		<br/>
-
-		<div class="row">
-			<div class="col-xs-6 pull-left">
-				<div class="col-xs-4 pull-right">
-					<button class="form-control pull-right btn btn-primary orange" onclick="save()">确认</button>
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">角色编码 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="roleCode" name="roleCode" th:value="${roleCode}" readonly="readonly"/>
 				</div>
 			</div>
-			<div class="col-xs-6 pull-right">
-				<div class="col-xs-4 pull-left">
-					<button class="form-control pull-left btn" onclick="history.back()">取消</button>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">角色名称 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="roleName" name="roleName"/>
 				</div>
 			</div>
-		</div>
 
-		<br/>
-		<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">角色类型 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="roleType" name="roleType"/>
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="pull-right vertical-center">角色描述 <span style="color: red">&nbsp;</span></label>
+				</div>
+				<div class="col-xs-8">
+					<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px"></textarea>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-6 pull-left">
+					<div class="col-xs-4 pull-right">
+						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+						<button type="button" class="form-control pull-right btn btn-primary orange" onclick="save()">确认</button>
+					</div>
+				</div>
+				<div class="col-xs-6 pull-right">
+					<div class="col-xs-4 pull-left">
+						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+						<button type="button" class="form-control pull-left btn" onclick="history.back()">取消</button>
+					</div>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+		</form>
+
 	</div>
-
 
 	<div style="display: none">
 		<style>
@@ -86,12 +92,11 @@
 		</style>
 	</div>
 
-
 </html>
 
 <script type="text/javascript">
 
-    //textarea的高度随内容发生改变，不会产生滚动条
+    //textarea的高度随内容发生改变，不产生滚动条
     $("#description").focus(function () {
         $('textarea').each(function () {
             this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
@@ -121,8 +126,29 @@
             return false;
         }
 
-        var formData=$(document.getElementById("formData")).serialize();
-        alert(formData);
+        var formMap = $("form").serialize();  //表单序列化
+        formMap.roleCode=roleCode;
+        formMap.roleName=roleName;
+        formMap.roleType=roleType;
+        formMap.description=description;
+
+        $.ajax({
+            type: "Post",
+            url: "roleInfo/saveOrUpdateRoleInfo",
+            data: formMap,
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+//                    location.href = window.history.back();
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+                    return false;
+				}
+            }, error: function (data) {
+
+            }
+        });
 
     }
 </script>

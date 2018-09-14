@@ -7,7 +7,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan("com.zhs.demo.dao")
+@MapperScan("com.zhs.demo.dao.MybatisMapper")
 @EnableRedisHttpSession   //开启session管理
 @EnableTransactionManagement  //开启事务管理
 public class DemoApplication {

@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class SessionInfo implements Serializable {
 
-    private Long userId;
+    private Long userId;   //当前登陆用户id
 
-    private String userName;
+    private String userName;   //当前登陆用户名称
 
-    private String userType;
+    private String userType;   //当前登陆用户类型
 
-    private String account;
+    private String account;   //当前登陆用户账号
 
     public Long getUserId() {
         return userId;
