@@ -34,7 +34,7 @@ public class RoleInfoController {
 
 
     /**
-     * 查询角色列表
+     * 角色的列表查询
      * @param jqGridRequest
      * @param jqGridQueryVo
      * @return
@@ -54,16 +54,31 @@ public class RoleInfoController {
     }
 
 
+    /**
+     * 跳转到角色新增页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toAddRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toAddRoleInfo(Model model){
+        String roleCode="R1809140001";
+        model.addAttribute("roleCode",roleCode);
+        return "systemManage/addRoleInfo";
+    }
 
-    @RequestMapping(value = "toSaveOrUpdate", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toSaveOrUpdate(Model model, Long roleId){
+
+    /**
+     * 跳转到角色的编辑页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toEditRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toEditRoleInfo(Model model, Long roleId){
         if (roleId != null){
             RoleInfo roleInfo = roleInfoService.findRoleInfoById(roleId);
             model.addAttribute("roleInfo",roleInfo);
         }
-        String roleCode="R1809140001";
-        model.addAttribute("roleCode",roleCode);
-        return "systemManage/addRoleInfo";
+        return "systemManage/editRoleInfo";
     }
 
 

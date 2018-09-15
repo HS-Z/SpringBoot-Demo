@@ -38,11 +38,9 @@
 					</div>
 				</div>
 				<div class="col-xs-1 pull-right">
-					<a th:href="@{roleInfo/toSaveOrUpdate}" class="form-control btn btn-primary pull-right"
+					<a th:href="@{roleInfo/toAddRoleInfo}" class="form-control btn btn-primary pull-right"
 					   data-toggle="modal" data-target="#Modal">
 						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>
-					<!--<a th:href="@{roleInfo/addRoleInfo}" class="form-control btn btn-primary pull-right menuOther">
-						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>-->
 				</div>
 			</div>
 
@@ -113,8 +111,9 @@
 
 
     function act_f(cellvalue, option, rowObject) {
-        return '<a href="#roleInfo/toSaveOrUpdate?roleId='+rowObject.id+'" title="编辑" class="menuGap"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>'  +
-            '<a href="#" onclick="Delete('+rowObject.id+')" title="删除" class="menuGap"><i class="fa fa-trash-o fa-2x red" aria-hidden="true"></i></i></a>' ;
+        return '<a href="roleInfo/toEditRoleInfo?roleId='+rowObject.id+'" title="编辑" class="menuGap" data-toggle="modal" data-target="#Modal">' +
+			'<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>'  +
+            '<a href="#" onclick="Delete('+rowObject.id+')" title="删除" class="menuGap"><i class="fa fa-trash-o fa-lg red" aria-hidden="true"></i></i></a>' ;
     }
 
 
