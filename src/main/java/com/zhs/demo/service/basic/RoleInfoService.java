@@ -98,4 +98,16 @@ public class RoleInfoService {
     }
 
 
+    public Json deleteRoleInfo(Long roleId){
+
+        try {
+            roleInfoRepository.deleteById(roleId);
+            return Json.ok("删除角色信息成功");
+        }catch (Exception e){
+            return Json.ok("删除角色信息失败");
+        }
+
+    }
+
+
 }

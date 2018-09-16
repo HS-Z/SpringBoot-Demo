@@ -81,6 +81,16 @@ public class RoleInfoController {
         return "systemManage/editRoleInfo";
     }
 
+    @RequestMapping(value = "deleteRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Json deleteRoleInfo(Long roleId){
+        if (roleId == null){
+            return Json.fail("关键参数丢失，删除失败");
+        }
+        Json json = roleInfoService.deleteRoleInfo(roleId);
+        return json;
+    }
+
 
     @RequestMapping(value = "saveOrUpdateRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody

@@ -102,6 +102,9 @@ public class LoginController {
     public String index(Model model){
         logger.info("用户登陆成功");
         SessionInfo sessionInfo=sessionUtils.getSessionInfo();
+        if (sessionInfo == null){
+            return "login";
+        }
 
         Long userId=sessionInfo.getUserId();  //当前登陆用户id
         if (userId == null){
