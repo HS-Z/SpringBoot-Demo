@@ -13,11 +13,11 @@ public interface RoleInfoMapper {
      * @param jqGridQueryVo
      * @return
      */
-    List<Object> getAllRoleInfo(JqGridQueryVo jqGridQueryVo);
+    List<Object> getRoleInfoList(JqGridQueryVo jqGridQueryVo);
 
 
     /**
-     *
+     * 根据角色编码查询角色信息
      */
     RoleInfo findRoleInfoByRoleCode(String roleCode);
 

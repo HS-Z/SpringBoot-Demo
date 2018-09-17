@@ -39,18 +39,18 @@ public class RoleInfoService {
         JqGridResponse jqGridResponse = new JqGridResponse();
 
         Page<Object> pageHelper=pageHelperService.myBatisPageHelper(jqGridQueryVo);
-        List<Object> roleInfoList=roleInfoMapper.getAllRoleInfo(jqGridQueryVo);
+        List<Object> list=roleInfoMapper.getRoleInfoList(jqGridQueryVo);
 
         jqGridResponse = pageHelperService.pageHelper(jqGridResponse,pageHelper);
 
-        jqGridResponse.setRows(roleInfoList);
+        jqGridResponse.setRows(list);
 
         return jqGridResponse;
 
     }
 
 
-    public RoleInfo findRoleInfoById(Long id){
+    public RoleInfo findById(Long id){
         RoleInfo roleInfo=roleInfoMapper.findById(id);
         return roleInfo;
     }

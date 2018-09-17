@@ -75,7 +75,7 @@ public class RoleInfoController {
     @RequestMapping(value = "toEditRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public String toEditRoleInfo(Model model, Long roleId){
         if (roleId != null){
-            RoleInfo roleInfo = roleInfoService.findRoleInfoById(roleId);
+            RoleInfo roleInfo = roleInfoService.findById(roleId);
             model.addAttribute("roleInfo",roleInfo);
         }
         return "systemManage/editRoleInfo";

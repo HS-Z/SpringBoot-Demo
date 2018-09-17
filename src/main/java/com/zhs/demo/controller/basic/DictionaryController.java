@@ -1,5 +1,6 @@
 package com.zhs.demo.controller.basic;
 
+import com.zhs.demo.constant.DictionaryType;
 import com.zhs.demo.model.basic.RoleInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
@@ -27,9 +28,11 @@ public class DictionaryController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "toRoleInfoList", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toRoleInfoList(Model model){
-        return "systemManage/roleInfoList";
+    @RequestMapping(value = "toDictionaryList", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toDictionaryList(Model model, String type){
+        model.addAttribute("type",type);
+        model.addAttribute("typeName", DictionaryType.CODE_RULE.getValue());
+        return "systemManage/dictionaryList";
     }
 
 
@@ -39,7 +42,7 @@ public class DictionaryController {
      * @param jqGridQueryVo
      * @return
      */
-    @RequestMapping(value = "getRoleInfoList", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "getDictionaryList", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JqGridResponse list(JqGridRequest jqGridRequest, JqGridQueryVo jqGridQueryVo) {
         try {
@@ -75,7 +78,7 @@ public class DictionaryController {
     @RequestMapping(value = "toEditRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public String toEditRoleInfo(Model model, Long roleId){
         if (roleId != null){
-            RoleInfo roleInfo = roleInfoService.findRoleInfoById(roleId);
+            RoleInfo roleInfo = roleInfoService.findById(roleId);
             model.addAttribute("roleInfo",roleInfo);
         }
         return "systemManage/editRoleInfo";
