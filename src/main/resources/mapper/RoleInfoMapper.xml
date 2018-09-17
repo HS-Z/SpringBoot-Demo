@@ -39,4 +39,9 @@
     </select>
 
 
+    <select id="findById" resultMap="roleInfoMap" parameterType="long">
+        SELECT * FROM  t_zhs_role_info WHERE id = #{id}
+    </select>
+
+
 </mapper>

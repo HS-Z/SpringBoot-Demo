@@ -3,7 +3,7 @@
 
 	<!--导航栏-->
 	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
-		<ul class="breadcrumb">
+		<ul class="breadcrumb col-xs-3">
 			<li class="active">新增角色</li>
 		</ul>
 	</div>
@@ -69,7 +69,7 @@
 				<div class="col-xs-6 pull-right">
 					<div class="col-xs-4 pull-left">
 						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
-						<button type="button" class="form-control pull-left btn" onclick="history.back()">取消</button>
+						<button type="button" class="form-control pull-left btn" data-dismiss="modal" aria-hidden="true">取消</button>
 					</div>
 				</div>
 			</div>
@@ -140,7 +140,7 @@
             success: function (data) {
                 if (data.success) {
                     layer.msg(data.msg,{icon: 6});
-                    window.history.back();  //返回角色列表并刷新
+                    location.reload();
                 }else {
                     layer.msg(data.msg,{icon: 5});
 				}

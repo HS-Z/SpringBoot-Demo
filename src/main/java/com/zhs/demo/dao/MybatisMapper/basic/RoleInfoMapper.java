@@ -22,4 +22,7 @@ public interface RoleInfoMapper {
     RoleInfo findRoleInfoByRoleCode(String roleCode);
 
 
+    RoleInfo findById(Long id);
+
+
 }

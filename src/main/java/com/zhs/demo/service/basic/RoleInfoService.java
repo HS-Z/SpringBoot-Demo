@@ -51,7 +51,7 @@ public class RoleInfoService {
 
 
     public RoleInfo findRoleInfoById(Long id){
-        RoleInfo roleInfo = roleInfoRepository.getOne(id);
+        RoleInfo roleInfo=roleInfoMapper.findById(id);
         return roleInfo;
     }
 
