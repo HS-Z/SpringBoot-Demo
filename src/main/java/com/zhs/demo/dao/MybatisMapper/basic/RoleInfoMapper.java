@@ -2,6 +2,7 @@ package com.zhs.demo.dao.MybatisMapper.basic;
 
 import com.zhs.demo.model.basic.RoleInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public interface RoleInfoMapper {
 
 
     RoleInfo findById(Long id);
+
+
+    @Select("SELECT MAX(role_code) as roleCode FROM t_zhs_role_info")
+    String getMaxRoleCode();
 
 
 }

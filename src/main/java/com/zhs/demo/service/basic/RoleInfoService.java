@@ -11,6 +11,7 @@ import com.zhs.demo.model.session.SessionInfo;
 import com.zhs.demo.service.PageHelperService;
 import com.zhs.demo.utils.Json;
 import com.zhs.demo.utils.SessionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +108,34 @@ public class RoleInfoService {
             return Json.ok("删除角色信息失败");
         }
 
+    }
+
+
+    /**
+     * 生成角色编码
+     * @return
+     */
+    public String generateCode(){
+        String maxRoleCode = roleInfoMapper.getMaxRoleCode();
+        if (StringUtils.isBlank(maxRoleCode)){
+            maxRoleCode = "R000001";
+            return maxRoleCode;
+        }
+        String subRoleCode = maxRoleCode.substring(1);
+        int intRoleCode = Integer.parseInt(subRoleCode) + 1;
+        maxRoleCode = String.format("R" + "%06d",intRoleCode);
+
+        for (int i=0; i < 10000; i++){   //循环10000次都找不到不重复的编码，我是不信的
+
+            RoleInfo roleInfo = roleInfoMapper.findRoleInfoByRoleCode(maxRoleCode);   //判断新生成的角色编码是否已存在
+            if (roleInfo == null){
+                break;
+            }else {
+                maxRoleCode = String.format("R" + "%06d",intRoleCode + 1);
+            }
+        }
+
+        return maxRoleCode;
     }
 
 

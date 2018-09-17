@@ -61,7 +61,7 @@ public class RoleInfoController {
      */
     @RequestMapping(value = "toAddRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
     public String toAddRoleInfo(Model model){
-        String roleCode="R1809140001";
+        String roleCode=roleInfoService.generateCode();
         model.addAttribute("roleCode",roleCode);
         return "systemManage/addRoleInfo";
     }
