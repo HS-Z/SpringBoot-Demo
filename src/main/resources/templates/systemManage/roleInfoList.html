@@ -7,10 +7,10 @@
 	}
 </style>
 
-	<div >
+	<div>
 
 		<!--导航栏-->
-		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li>
 					<i class="ace-icon fa fa-list-ul home-icon"></i>
@@ -82,7 +82,7 @@
 
     function run_jqGrid_function() {
         jQuery("#grid-table").jqGrid({
-            url: 'userInfo/getUserInfoList',
+            url: 'roleInfo/getRoleInfoList',
             postData: {code:"seller"},
             datatype: "json",
             colModel: [
@@ -90,8 +90,7 @@
                 {label:'角色编码',name: 'roleCode', index: 'roleCode', align: "left", editable: true, width:100},
                 {label:'角色名称',name: 'roleName', index: 'roleName', align: "left", editable: true, width:100},
                 {label:'角色类型',name: 'roleType', index: 'roleType', align: "left", editable: true, width:100},
-//                {label:'创建时间',name: 'createDate', index: 'createDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {newformat:'Y-m-d H:m:s'}},
-                {label:'最近更改时间',name: 'lastUpdateDate', index: 'lastUpdateDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {newformat:'Y-m-d H:m:s'}},
+                {label:'最近更改时间',name: 'lastUpdateDate', index: 'lastUpdateDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {label:'角色描述',name: 'description', index: 'description', align: "left", editable: true, width:200},
                 {label:'操作',name: 'act', index: 'act', sortable: false, formatter: act_f, width:100}
             ],
@@ -101,8 +100,8 @@
             viewrecords: true,
             // caption: "角色列表",
             sortable: true,
-            sortname:'createDate', //设置默认的排序列
-            sortorder:'asc',
+            sortname:'lastUpdateDate', //设置默认的排序列
+            sortorder:'desc',
             rownumbers:true,   //显示序列号
             altRows:true,  //隔行变色
             rowNum:15,  //每页显示记录数
