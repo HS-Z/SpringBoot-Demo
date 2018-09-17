@@ -92,8 +92,8 @@
             datatype: "json",
             colModel: [
                 {label:'id',name: 'id', index: 'id', hidden:true},
-                {label:'编码',name: 'roleCode', index: 'roleCode', align: "left", editable: true, width:100},
-                {label:'名称',name: 'roleName', index: 'roleName', align: "left", editable: true, width:100},
+                {label:'编码',name: 'code', index: 'code', align: "left", editable: true, width:100},
+                {label:'名称',name: 'name', index: 'name', align: "left", editable: true, width:100},
 //                {label:'角色类型',name: 'roleType', index: 'roleType', align: "left", editable: true, width:100},
                 {label:'最近更改时间',name: 'lastUpdateDate', index: 'lastUpdateDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {label:'描述',name: 'description', index: 'description', align: "left", editable: true, width:200},
@@ -127,9 +127,8 @@
 
 
     function act_f(cellvalue, option, rowObject) {
-        return '<a href="roleInfo/toEditRoleInfo?roleId='+rowObject.id+'" title="编辑" class="menuGap" data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">' +
-			'<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>'  +
-            '<a href="#" onclick="Delete('+rowObject.id+')" title="删除" class="menuGap"><i class="fa fa-trash-o fa-lg red" aria-hidden="true"></i></i></a>' ;
+        return '<a href="dictionary/toEdit?id='+rowObject.id+'" title="编辑" class="menuGap" data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">' +
+			'<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
     }
 
 </script>

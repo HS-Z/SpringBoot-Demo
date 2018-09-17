@@ -1,13 +1,11 @@
 package com.zhs.demo.controller.basic;
 
 import com.zhs.demo.constant.DictionaryType;
-import com.zhs.demo.model.basic.RoleInfo;
+import com.zhs.demo.model.basic.Dictionary;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
-import com.zhs.demo.service.basic.RoleInfoService;
-import com.zhs.demo.utils.Json;
-import org.apache.commons.lang3.StringUtils;
+import com.zhs.demo.service.basic.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DictionaryController {
 
     @Autowired
-    private RoleInfoService roleInfoService;
+    private DictionaryService dictionaryService;
 
     /**
-     * 跳转到角色列表
+     * 跳转到通用设置列表
      * @param model
      * @return
      */
@@ -37,7 +35,7 @@ public class DictionaryController {
 
 
     /**
-     * 角色的列表查询
+     * 通用设置的列表查询
      * @param jqGridRequest
      * @param jqGridQueryVo
      * @return
@@ -48,7 +46,7 @@ public class DictionaryController {
         try {
             jqGridQueryVo.setJqGridRequest(jqGridRequest);
 
-            JqGridResponse jqGridResponse=roleInfoService.findRoleInfoList(jqGridQueryVo);
+            JqGridResponse jqGridResponse=dictionaryService.getDictionaryList(jqGridQueryVo);
 
             return jqGridResponse;
         } catch (Exception e) {
@@ -58,66 +56,25 @@ public class DictionaryController {
 
 
     /**
-     * 跳转到角色新增页面
+     * 跳转到编辑页面
      * @param model
+     * @param id
      * @return
      */
-    @RequestMapping(value = "toAddRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toAddRoleInfo(Model model){
-        String roleCode="R1809140001";
-        model.addAttribute("roleCode",roleCode);
-        return "systemManage/addRoleInfo";
-    }
-
-
-    /**
-     * 跳转到角色的编辑页面
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "toEditRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toEditRoleInfo(Model model, Long roleId){
-        if (roleId != null){
-            RoleInfo roleInfo = roleInfoService.findById(roleId);
-            model.addAttribute("roleInfo",roleInfo);
+    @RequestMapping(value = "toEdit", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toEdit(Model model, Long id){
+        if (id != null){
+            Dictionary dictionary = dictionaryService.findById(id);
+            model.addAttribute("dictionary",dictionary);
         }
-        return "systemManage/editRoleInfo";
-    }
-
-    @RequestMapping(value = "deleteRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public Json deleteRoleInfo(Long roleId){
-        if (roleId == null){
-            return Json.fail("关键参数丢失，删除失败");
-        }
-        Json json = roleInfoService.deleteRoleInfo(roleId);
-        return json;
+        return "systemManage/editDictionary";
     }
 
 
-    @RequestMapping(value = "saveOrUpdateRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public Json saveOrUpdateRoleInfo(RoleInfo roleInfo) {
-        Json json = new Json();
-        try {
 
-            if (StringUtils.isBlank(roleInfo.getRoleCode()) || StringUtils.isBlank(roleInfo.getRoleName()) || StringUtils.isBlank(roleInfo.getRoleType())){
-                json.setSuccess(false);
-                json.setMsg("必填字段不能为空");
-                return json;
-            }
 
-            json = roleInfoService.saveOrUpdate(roleInfo);
 
-        } catch (Exception e) {
-            json.setSuccess(false);
-            if (roleInfo.getId() != null){
-                json.setMsg("角色信息更新失败");
-            }else {
-                json.setMsg("角色信息新增失败");
-            }
-        }
-        return json;
-    }
+
+
 
 }

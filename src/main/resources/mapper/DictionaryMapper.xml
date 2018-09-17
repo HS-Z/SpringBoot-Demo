@@ -9,15 +9,28 @@
         <result property="id" column="id"/>
         <result property="creator" column="creator"/>
         <result property="createDate" column="create_date"/>
-        <!--<result property="lastUpdateDate" column="last_update_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
         <result property="deleted" column="deleted"/>
-        <result property="roleCode" column="role_code"/>
-        <result property="roleName" column="role_name"/>
-        <result property="roleType" column="role_type"/>
-        <result property="parentRoleId" column="parent_role_id"/>
-        <result property="description" column="description"/>-->
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="value" column="value"/>
+        <result property="description" column="description"/>
     </resultMap>
 
 
+
+    <!--查询列表-->
+    <select id="getDictionaryList" resultType="hashMap" parameterType="com.zhs.demo.model.jqGrid.JqGridQueryVo">
+        SELECT d.id as id, d.code as code, d.name as name, d.type as type, d.description as description, d.value as value,
+        d.creator as creator, d.create_date as createDate, d.last_update_date as lastUpdateDate, d.deleted as deleted
+        FROM t_zhs_dictionary d
+        <where>
+            1=1
+            <if test=" name != null and name != '' ">
+                and ( d.code LIKE CONCAT('%', CONCAT(#{name}, '%')) or d.name LIKE CONCAT('%', CONCAT(#{name}, '%')))
+            </if>
+        </where>
+    </select>
 
 </mapper>

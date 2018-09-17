@@ -1,0 +1,139 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+	<!--导航栏-->
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li class="active">编辑</li>
+		</ul>
+	</div>
+
+	<div class="col-xs-12" id="formData" style="background: white">
+
+		<form>
+
+			<input type="text" id="id" name="id" th:value="${dictionary.id}" hidden="hidden"/>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="code" name="code" th:value="${dictionary.code}" readonly="readonly" autocomplete="off"/>
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">名称 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="name" name="name" th:value="${dictionary.name}" autocomplete="off"/>
+				</div>
+			</div>
+
+			<br/>
+
+
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="pull-right vertical-center">角色描述 <span style="color: red">&nbsp;</span></label>
+				</div>
+				<div class="col-xs-8">
+					<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px" th:text="${dictionary.description}"></textarea>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-6 pull-left">
+					<div class="col-xs-4 pull-right">
+						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+						<button type="button" class="form-control pull-right btn btn-primary orange" onclick="save()">确认</button>
+					</div>
+				</div>
+				<div class="col-xs-6 pull-right">
+					<div class="col-xs-4 pull-left">
+						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+						<button type="button" class="form-control pull-left btn" data-dismiss="modal" aria-hidden="true">取消</button>
+					</div>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+		</form>
+
+	</div>
+
+	<div style="display: none">
+		<style>
+			/*内容垂直居中*/
+			.vertical-center{
+				height: 34px;
+				line-height: 34px;
+				overflow: hidden;
+			}
+		</style>
+	</div>
+
+</html>
+
+<script type="text/javascript">
+
+    //textarea的高度随内容发生改变，不产生滚动条
+    $("#description").focus(function () {
+        $('textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+        }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    });
+
+    function save() {
+
+        var code=$("#code").val();
+        var name=$("#name").val();
+        var description=$("#description").val();
+
+        if (isEmptyForString(code)){
+            layer.msg("角色编码不能为空",{icon: 5});
+            return false;
+		}
+        if (isEmptyForString(name)){
+            layer.msg("角色名称不能为空",{icon: 5});
+            return false;
+        }
+
+        var formMap = $("form").serialize();  //表单序列化
+        formMap.code=code;
+        formMap.name=name;
+        formMap.description=description;
+
+        $.ajax({
+            type: "Post",
+            url: "roleInfo/saveOrUpdateRoleInfo",
+            data: formMap,
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+                    location.reload();
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+				}
+            }, error: function (data) {
+
+            }
+        });
+
+    }
+</script>
