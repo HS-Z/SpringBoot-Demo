@@ -54,7 +54,7 @@
 </head>
 
 <body class="no-skin">
-<div id="navbar" class="navbar navbar-default          ace-save-state">
+<div id="navbar" class="navbar navbar-default ace-save-state">
 	<div class="navbar-container ace-save-state" id="navbar-container">
 		<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
 			<span class="sr-only">Toggle sidebar</span>
@@ -412,15 +412,8 @@
 				<b class="arrow"></b>
 
 				<ul class="submenu">
-					<!--<li class="menuTest">
-						<a th:href="@{userInfo/toUserInfoList}">
-							<i class="menu-icon fa fa-caret-right"></i>
-							用户管理
-						</a>
-						<b class="arrow"></b>
-					</li>-->
 					<li class="menuTest">
-						<a th:href="@{roleInfo/toRoleInfoList}">
+						<a th:href="@{#roleInfo/toRoleInfoList}">
 							<i class="menu-icon fa fa-caret-right"></i>
 							角色管理
 						</a>
@@ -591,7 +584,11 @@
     /*加载其他页面*/
     $(".menuTest a").click(function (e) {
         e.preventDefault();
+
         var url = $(this).attr("href");//拿到对应的URL了
+        var url1 = url.replace(/^#/, '');
+        alert(url);
+        alert(url1);
         $.ajax({
             url: url,
             type: "GET",
