@@ -20,8 +20,9 @@ public final class SessionUtils implements Serializable {
 
 
     public SessionUtils(RedisUtils redisUtils) {
-        if (redisUtils == null)
+        if (redisUtils == null){
             throw new RuntimeException(" 未找到 Redis 缓存工具类");
+        }
         this.redisUtils = redisUtils;
     }
 

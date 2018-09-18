@@ -26,4 +26,16 @@ public class CustomRuntimeExceptionHandler{
     }
 
 
+    /**
+     * 发生该异常时，跳转到登陆页面
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(SessionExpireException.class)
+    public String handlerException(SessionExpireException exception) {
+        LOGGER.error("session失效或已过期：", exception);
+        return "/login";
+    }
+
+
  }
