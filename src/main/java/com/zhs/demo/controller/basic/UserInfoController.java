@@ -4,7 +4,7 @@ import com.zhs.demo.model.basic.UserInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
-import com.zhs.demo.redis.RedisUtils;
+import com.zhs.demo.common.redis.RedisUtils;
 import com.zhs.demo.service.basic.RoleInfoService;
 import com.zhs.demo.service.basic.UserInfoService;
 import com.zhs.demo.utils.CommonUtils;

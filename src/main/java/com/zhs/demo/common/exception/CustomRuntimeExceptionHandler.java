@@ -1,4 +1,4 @@
-package com.zhs.demo.exception;
+package com.zhs.demo.common.exception;
 
 import com.zhs.demo.utils.Json;
 import org.apache.log4j.Logger;

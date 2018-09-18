@@ -1,4 +1,4 @@
-package com.zhs.demo.exception;
+package com.zhs.demo.common.exception;
 
 /**
  * 自定义运行时异常

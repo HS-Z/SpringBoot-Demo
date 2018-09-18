@@ -1,4 +1,4 @@
-package com.zhs.demo.shiro;
+package com.zhs.demo.common.shiro;
 
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

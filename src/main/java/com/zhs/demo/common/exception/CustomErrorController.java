@@ -1,4 +1,4 @@
-package com.zhs.demo.exception;
+package com.zhs.demo.common.exception;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;

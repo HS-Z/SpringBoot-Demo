@@ -1,4 +1,4 @@
-package com.zhs.demo.redis;
+package com.zhs.demo.common.redis;
 
 
 import org.springframework.cache.interceptor.KeyGenerator;

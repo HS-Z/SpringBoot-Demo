@@ -1,8 +1,8 @@
-package com.zhs.demo.shiro;
+package com.zhs.demo.common.shiro;
 
 import com.zhs.demo.constant.RedisKey;
 import com.zhs.demo.model.basic.UserInfo;
-import com.zhs.demo.redis.RedisUtils;
+import com.zhs.demo.common.redis.RedisUtils;
 import com.zhs.demo.service.basic.UserInfoService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

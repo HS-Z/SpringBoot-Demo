@@ -3,7 +3,7 @@ package com.zhs.demo.service.basic;
 import com.github.pagehelper.Page;
 import com.zhs.demo.dao.JpaRepository.basic.RoleInfoRepository;
 import com.zhs.demo.dao.MybatisMapper.basic.RoleInfoMapper;
-import com.zhs.demo.exception.CustomRuntimeException;
+import com.zhs.demo.common.exception.CustomRuntimeException;
 import com.zhs.demo.model.basic.RoleInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridResponse;

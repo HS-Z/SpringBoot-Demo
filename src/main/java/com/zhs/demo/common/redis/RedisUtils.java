@@ -1,4 +1,4 @@
-package com.zhs.demo.redis;
+package com.zhs.demo.common.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;

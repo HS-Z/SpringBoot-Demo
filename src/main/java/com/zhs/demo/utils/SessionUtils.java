@@ -2,7 +2,7 @@ package com.zhs.demo.utils;
 
 import com.zhs.demo.model.session.SessionInfo;
 import com.zhs.demo.model.basic.UserInfo;
-import com.zhs.demo.redis.RedisUtils;
+import com.zhs.demo.common.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;

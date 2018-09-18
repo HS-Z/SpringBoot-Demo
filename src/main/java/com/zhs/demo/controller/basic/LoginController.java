@@ -3,7 +3,7 @@ package com.zhs.demo.controller.basic;
 import com.zhs.demo.constant.RedisKey;
 import com.zhs.demo.model.basic.*;
 import com.zhs.demo.model.session.SessionInfo;
-import com.zhs.demo.redis.RedisUtils;
+import com.zhs.demo.common.redis.RedisUtils;
 import com.zhs.demo.service.basic.*;
 import com.zhs.demo.utils.Json;
 import com.zhs.demo.utils.SessionUtils;
