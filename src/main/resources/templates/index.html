@@ -413,7 +413,7 @@
 
 				<ul class="submenu">
 					<li class="menuTest">
-						<a th:href="@{#roleInfo/toRoleInfoList}">
+						<a th:href="@{roleInfo/toRoleInfoList}">
 							<i class="menu-icon fa fa-caret-right"></i>
 							角色管理
 						</a>
@@ -586,9 +586,6 @@
         e.preventDefault();
 
         var url = $(this).attr("href");//拿到对应的URL了
-        var url1 = url.replace(/^#/, '');
-        alert(url);
-        alert(url1);
         $.ajax({
             url: url,
             type: "GET",

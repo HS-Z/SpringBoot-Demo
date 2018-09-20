@@ -31,8 +31,11 @@ public class UrlFilter implements Filter{
         //获取当前 request 中的session，如果 session 为null，不创建新的 session
         HttpSession session = request.getSession(false);
 
+        filterChain.doFilter(servletRequest, servletResponse);
 
-        String url = request.getRequestURI();
+
+
+        /*String url = request.getRequestURI();
 
         boolean needFilter = isNeedFilter(url);  //判断当前请求是否需要过滤
 
@@ -53,7 +56,7 @@ public class UrlFilter implements Filter{
 
         }else {
             filterChain.doFilter(servletRequest, servletResponse);
-        }
+        }*/
     }
 
     @Override
