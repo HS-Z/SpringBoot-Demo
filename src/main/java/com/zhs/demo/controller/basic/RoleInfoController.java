@@ -5,6 +5,7 @@ import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
 import com.zhs.demo.service.basic.RoleInfoService;
+import com.zhs.demo.service.notice.EmailService;
 import com.zhs.demo.utils.Json;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class RoleInfoController {
 
     @Autowired
     private RoleInfoService roleInfoService;
+    @Autowired
+    private EmailService emailService;
 
     /**
      * 跳转到角色列表
@@ -63,6 +66,7 @@ public class RoleInfoController {
     public String toAddRoleInfo(Model model){
         String roleCode=roleInfoService.generateCode();
         model.addAttribute("roleCode",roleCode);
+        emailService.sendSimpleEmail();
         return "systemManage/addRoleInfo";
     }
 
