@@ -84,6 +84,11 @@ public class RoleInfoController {
         return "systemManage/editRoleInfo";
     }
 
+    /**
+     * 角色的删除
+     * @param roleId
+     * @return
+     */
     @RequestMapping(value = "deleteRoleInfo", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Json deleteRoleInfo(Long roleId){
