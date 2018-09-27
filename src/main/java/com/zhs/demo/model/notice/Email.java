@@ -11,6 +11,8 @@ public class Email {
 
     private String host;  //邮件服务器
 
+    private String port;  //端口号
+
     private String name;  //发件人名称
 
     private String password;   //邮箱密码
@@ -20,6 +22,8 @@ public class Email {
     private String to;  //接收人邮箱
 
     private String cc;  //抄送人邮箱
+
+    private String bcc;  //密送人邮箱
 
     private String subject;  //邮件主题
 
@@ -32,6 +36,14 @@ public class Email {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 
     public String getName() {
@@ -72,6 +84,14 @@ public class Email {
 
     public void setCc(String cc) {
         this.cc = cc;
+    }
+
+    public String getBcc() {
+        return bcc;
+    }
+
+    public void setBcc(String bcc) {
+        this.bcc = bcc;
     }
 
     public String getSubject() {

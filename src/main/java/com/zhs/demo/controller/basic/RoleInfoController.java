@@ -66,7 +66,6 @@ public class RoleInfoController {
     public String toAddRoleInfo(Model model){
         String roleCode=roleInfoService.generateCode();
         model.addAttribute("roleCode",roleCode);
-        emailService.sendSimpleEmail();
         return "systemManage/addRoleInfo";
     }
 
