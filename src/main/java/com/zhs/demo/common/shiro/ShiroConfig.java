@@ -29,7 +29,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/img*", "anon");
         filterChainDefinitionMap.put("/js*", "anon");
 
-        filterChainDefinitionMap.put("/login", "anon");   //跳转到登陆页面
+        /*filterChainDefinitionMap.put("/login", "anon");   //跳转到登陆页面
         filterChainDefinitionMap.put("/register", "anon");  //跳转到注册页面
         filterChainDefinitionMap.put("/loginSystem", "anon");  //登陆
 
@@ -37,7 +37,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/logout", "logout");
 
         // authc:所有url都必须认证通过才可以访问; anon:所有url都可以匿名访问
-        filterChainDefinitionMap.put("/**", "authc");    // 一般将/**放在最下边
+        filterChainDefinitionMap.put("*//**", "authc");    // 一般将*//**放在最下边
 
         // 请求被拦截后要跳转的链接
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -48,7 +48,7 @@ public class ShiroConfig {
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);*/
         return shiroFilterFactoryBean;
     }
 
