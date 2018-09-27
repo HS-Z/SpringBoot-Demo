@@ -1,6 +1,7 @@
 package com.zhs.demo.service.notice;
 
 import com.zhs.demo.model.notice.Email;
+import com.zhs.demo.utils.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,22 +27,20 @@ public class EmailService{
      * 简单的邮件发送，纯文本内容
      * @param
      */
-    public void sendSimpleEmail(){
+    public Json sendSimpleEmail(){
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("www.aiwoo@live.com");
-        message.setTo("www.1019263443@qq.com");
+        message.setFrom("1019263443@qq.com");
+        message.setTo("www.aiwoo@live.com");
         message.setSubject("邮件测试");
         message.setText("这是一条测试邮件");
         message.setSentDate(new Date());
-
         try {
             mailSender.send(message);
-            System.out.println("邮件发送成功");
+            return Json.ok("邮件发送成功");
         }catch (Exception e){
-            System.out.println("邮件发送失败");
+            return Json.fail("邮件发送失败");
         }
-
     }
 
 }
