@@ -3,8 +3,11 @@ package com.zhs.demo.constant;
 
 public enum DictionaryType {
 
+    USER_TYPE("用户类型"),
 
-    CODE_RULE("编码生成规则");
+    ROLE_TYPE("角色类型"),
+
+    MESSAGE_TYPE("消息类型");
 
 
     private String value;

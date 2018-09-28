@@ -41,11 +41,11 @@
 						</div>
 					</div>
 				</div>
-				<!--<div class="col-xs-1 pull-right">
-					<a th:href="@{roleInfo/toAddRoleInfo}" class="form-control btn btn-primary pull-right"
+				<div class="col-xs-1 pull-right">
+					<a th:href="@{dictionary/toAdd(type=${type})}" class="form-control btn btn-primary pull-right"
 					   data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">
-						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增角色</a>
-				</div>-->
+						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增</a>
+				</div>
 			</div>
 
 			<br/>
@@ -94,8 +94,7 @@
                 {label:'id',name: 'id', index: 'id', hidden:true},
                 {label:'编码',name: 'code', index: 'code', align: "left", editable: true, width:100},
                 {label:'名称',name: 'name', index: 'name', align: "left", editable: true, width:100},
-//                {label:'角色类型',name: 'roleType', index: 'roleType', align: "left", editable: true, width:100},
-                {label:'最近更改时间',name: 'lastUpdateDate', index: 'lastUpdateDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {label:'更改时间',name: 'lastUpdateDate', index: 'lastUpdateDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {label:'描述',name: 'description', index: 'description', align: "left", editable: true, width:200},
                 {label:'操作',name: 'act', index: 'act', sortable: false, formatter: act_f, width:100}
             ],

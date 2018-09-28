@@ -30,6 +30,9 @@
             <if test=" name != null and name != '' ">
                 and ( d.code LIKE CONCAT('%', CONCAT(#{name}, '%')) or d.name LIKE CONCAT('%', CONCAT(#{name}, '%')))
             </if>
+            <if test=" type != null and type != '' ">
+                and d.type = #{type}
+            </if>
         </where>
     </select>
 

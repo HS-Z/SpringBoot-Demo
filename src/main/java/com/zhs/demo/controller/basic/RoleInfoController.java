@@ -4,6 +4,7 @@ import com.zhs.demo.model.basic.RoleInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
+import com.zhs.demo.model.notice.Email;
 import com.zhs.demo.service.basic.RoleInfoService;
 import com.zhs.demo.service.notice.EmailService;
 import com.zhs.demo.utils.Json;
@@ -66,6 +67,7 @@ public class RoleInfoController {
     public String toAddRoleInfo(Model model){
         String roleCode=roleInfoService.generateCode();
         model.addAttribute("roleCode",roleCode);
+        emailService.sendSimpleEmail(new Email());
         return "systemManage/addRoleInfo";
     }
 

@@ -38,8 +38,8 @@ public class EmailService{
         message.setFrom("1019263443@qq.com");   //发件人
         message.setTo("www.aiwoo@live.com");   //收件人
         message.setSubject("邮件测试");   //邮件主题
-        message.setText("这是一条测试邮件");
-        message.setSentDate(new Date());
+        message.setText("这是一条测试邮件");   //邮件内容
+        message.setSentDate(new Date());  //发送时间
         message.setCc();   //抄送
         message.setBcc();  //密送
         try {
@@ -71,7 +71,7 @@ public class EmailService{
             helper.setFrom("1019263443@qq.com");
             helper.setTo("www.aiwoo@live.com");
             helper.setSubject("html邮件测试");
-            helper.setText(content,true);
+            helper.setText(content,true);  // true表示这个邮件是有附件的
 
             mailSender.send(message);
 
@@ -90,12 +90,12 @@ public class EmailService{
     public Json sendAttachmentsEmail(Email email) {
         MimeMessage message = mailSender.createMimeMessage();  //创建一个MIME消息
 
-        String filePath="E:\\SG";
+        String filePath="E:\\psb.jpg";
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("1019263443@qq.com");
             helper.setTo("www.aiwoo@live.com");
-            helper.setSubject("html邮件测试");
+            helper.setSubject("带附件的邮件测试");
             helper.setText("带附件的邮件", true);  // true表示这个邮件是有附件的
 
             FileSystemResource file = new FileSystemResource(new File(filePath));//创建文件系统资源
@@ -113,11 +113,16 @@ public class EmailService{
     }
 
 
+    /**
+     * 静态资源邮件发送
+     * @param email
+     * @return
+     */
     public Json sendInlineResourceEmail(Email email) {
 
         MimeMessage message = mailSender.createMimeMessage();
 
-        String rscPath="E:\\SG";
+        String rscPath="E:\\psb.jpg";
         String rscId="001";
         String content="<html><body>这是有图片的邮件：<img src=\'cid:" + rscId + "\' ></body></html>";
         try {
@@ -125,7 +130,7 @@ public class EmailService{
             helper.setFrom("1019263443@qq.com");
             helper.setTo("www.aiwoo@live.com");
             helper.setSubject("html邮件测试");
-            helper.setText("带附件的邮件", true);  // true表示这个邮件是有附件的
+            helper.setText(content, true);  // true表示这个邮件是有附件的
 
             FileSystemResource res = new FileSystemResource(new File(rscPath));
 

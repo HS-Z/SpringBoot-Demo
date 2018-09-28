@@ -29,7 +29,7 @@ public class DictionaryController {
     @RequestMapping(value = "toDictionaryList", method = {RequestMethod.GET, RequestMethod.POST})
     public String toDictionaryList(Model model, String type){
         model.addAttribute("type",type);
-        model.addAttribute("typeName", DictionaryType.CODE_RULE.getValue());
+        model.addAttribute("typeName", DictionaryType.valueOf(type).getValue());
         return "systemManage/dictionaryList";
     }
 
@@ -52,6 +52,15 @@ public class DictionaryController {
         } catch (Exception e) {
             return new JqGridResponse();
         }
+    }
+
+
+    @RequestMapping("toAdd")
+    public String toAdd(Model model, String type){
+        model.addAttribute("type",type);
+        model.addAttribute("typeName",DictionaryType.valueOf(type).getValue());
+        return "systemManage/addDictionary";
+
     }
 
 

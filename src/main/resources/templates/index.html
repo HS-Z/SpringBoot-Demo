@@ -67,7 +67,7 @@
 		</button>
 
 		<div class="navbar-header pull-left">
-			<a href="index.html" class="navbar-brand">
+			<a href="aa.html" class="navbar-brand">
 				<small>
 					<i class="fa fa-leaf"></i>
 					Zhs Demo
@@ -196,7 +196,7 @@
 
 				<ul class="nav nav-list">
 					<li class="active">
-						<a href="index.html">
+						<a href="bb.html">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> 报表 </span>
 						</a>
@@ -222,6 +222,58 @@
 								</a>
 								<b class="arrow"></b>
 							</li>
+							<li class="">
+								<a href="#" class="dropdown-toggle">
+									<i class="menu-icon fa fa-caret-right"></i>
+									通知管理
+									<b class="arrow fa fa-angle-down"></b>
+								</a>
+
+								<b class="arrow"></b>
+
+								<ul class="submenu">
+									<li class="menuTest">
+										<a th:href="@{#dictionary/toDictionaryList(type='CODE_RULE')}">
+											<i class="menu-icon"></i>
+											邮箱管理
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+
+									<li class="">
+										<a href="#" class="dropdown-toggle">
+											<i class="menu-icon fa fa-caret-right"></i>
+											消息管理
+											<b class="arrow fa fa-angle-down"></b>
+										</a>
+
+										<b class="arrow"></b>
+
+										<ul class="submenu">
+											<li class="menuTest">
+												<a th:href="@{#dictionary/toDictionaryList(type='CODE_RULE')}">
+													<i class="menu-icon"></i>
+													发送的消息
+												</a>
+
+												<b class="arrow"></b>
+											</li>
+
+											<li class="">
+												<a href="two-menu-1.html">
+													<i class="menu-icon"></i>
+													接收的消息
+												</a>
+
+												<b class="arrow"></b>
+											</li>
+
+										</ul>
+									</li>
+
+								</ul>
+							</li>
 
 
 							<li class="">
@@ -234,28 +286,29 @@
 								<b class="arrow"></b>
 
 								<ul class="submenu">
+
 									<li class="menuTest">
-										<a th:href="@{#dictionary/toDictionaryList(type='CODE_RULE')}">
+										<a th:href="@{#dictionary/toDictionaryList(type='MESSAGE_TYPE')}">
 											<i class="menu-icon"></i>
-											编码生成规则
+											消息类型
 										</a>
 
 										<b class="arrow"></b>
 									</li>
 
 									<li class="">
-										<a href="two-menu-1.html">
+										<a th:href="@{#dictionary/toDictionaryList(type='USER_TYPE')}">
+											<i class="menu-icon"></i>
+											用户类型
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+
+									<li class="">
+										<a th:href="@{#dictionary/toDictionaryList(type='ROLE_TYPE')}">
 											<i class="menu-icon"></i>
 											角色类型
-										</a>
-
-										<b class="arrow"></b>
-									</li>
-
-									<li class="">
-										<a href="two-menu-2.html">
-											<i class="menu-icon"></i>
-											客户类型
 										</a>
 
 										<b class="arrow"></b>
