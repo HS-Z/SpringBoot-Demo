@@ -87,6 +87,7 @@ public class MenuInfo extends BaseModel{
         this.url = url;
     }
 
+    @Column(length = 2048)
     public String getDescription() {
         return description;
     }

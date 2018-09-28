@@ -12,6 +12,8 @@
 
 		<form>
 
+			<input type="text" id="type" name="type" th:value="${type}" hidden="hidden"/>
+
 			<br/>
 			<br/>
 
@@ -20,7 +22,7 @@
 					<label class="pull-right vertical-center">[[${typeName}]]编码 <span style="color: red">*</span></label>
 				</div>
 				<div class="col-xs-8">
-					<input type="text" class="form-control pull-left" id="code" name="code"/>
+					<input type="text" class="form-control pull-left" id="code" name="code" th:value="${code}" readonly="readonly"/>
 				</div>
 			</div>
 
@@ -31,7 +33,7 @@
 					<label class="pull-right vertical-center">[[${typeName}]]名称 <span style="color: red">*</span></label>
 				</div>
 				<div class="col-xs-8">
-					<input type="text" class="form-control pull-left" id="name" name="name"/>
+					<input type="text" class="form-control pull-left" id="dicName" name="name"/>  <!--id="name"时，无法取到值-->
 				</div>
 			</div>
 
@@ -99,7 +101,7 @@
     function save() {
 
         var code=$("#code").val();
-        var name=$("#name").val();
+        var name=$("#dicName").val();
         var type=$("#type").val();
         var description=$("#description").val();
 
@@ -124,7 +126,7 @@
 
         $.ajax({
             type: "Post",
-            url: "roleInfo/saveOrUpdateRoleInfo",
+            url: "dictionary/saveOrEdit",
             data: formMap,
             dataType: "JSON",
             success: function (data) {

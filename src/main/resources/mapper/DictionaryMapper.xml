@@ -14,7 +14,6 @@
         <result property="code" column="code"/>
         <result property="name" column="name"/>
         <result property="type" column="type"/>
-        <result property="value" column="value"/>
         <result property="description" column="description"/>
     </resultMap>
 
@@ -34,6 +33,11 @@
                 and d.type = #{type}
             </if>
         </where>
+    </select>
+
+
+    <select id="findByCodeAndType" resultMap="dictionaryMap">
+        SELECT * FROM t_zhs_dictionary WHERE code = #{code} AND type = #{type}
     </select>
 
 </mapper>

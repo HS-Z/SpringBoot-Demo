@@ -6,9 +6,12 @@ import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
 import com.zhs.demo.service.basic.DictionaryService;
+import com.zhs.demo.utils.Json;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,12 +58,48 @@ public class DictionaryController {
     }
 
 
+    /**
+     * 跳转到新增页面
+     * @param model
+     * @param type
+     * @return
+     */
     @RequestMapping("toAdd")
     public String toAdd(Model model, String type){
+        String code = dictionaryService.generateCode(type);
+        model.addAttribute("code",code);
         model.addAttribute("type",type);
         model.addAttribute("typeName",DictionaryType.valueOf(type).getValue());
         return "systemManage/addDictionary";
 
+    }
+
+
+    /**
+     * 新增及编辑功能
+     * @param dictionary
+     * @return
+     */
+    @RequestMapping(value = "saveOrEdit",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public Json saveOrEdit(Dictionary dictionary){
+        Json json = new Json();
+
+        try{
+            if (StringUtils.isBlank(dictionary.getCode()) || StringUtils.isBlank(dictionary.getName()) || StringUtils.isBlank(dictionary.getType())){
+                json.setSuccess(false);
+                json.setMsg("必填字段不能为空");
+                return json;
+            }
+
+            json = dictionaryService.saveOrUpdate(dictionary);
+
+        }catch (Exception e){
+            json.setSuccess(false);
+            json.setMsg("操作失败");
+        }
+
+        return json;
     }
 
 

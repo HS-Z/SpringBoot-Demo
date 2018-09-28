@@ -57,6 +57,7 @@ public class RoleInfo extends BaseModel{
         this.parentRoleId = parentRoleId;
     }
 
+    @Column(length = 2048)
     public String getDescription() {
         return description;
     }

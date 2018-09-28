@@ -1,6 +1,7 @@
 package com.zhs.demo.model.basic;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -16,8 +17,6 @@ public class Dictionary extends BaseModel{
     private String name;   //字典表名称
 
     private String type;   //字典表类型
-
-    private String value;  //值
 
     private String description;  //描述
 
@@ -46,14 +45,7 @@ public class Dictionary extends BaseModel{
         this.type = type;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
+    @Column(length = 2048)
     public String getDescription() {
         return description;
     }
