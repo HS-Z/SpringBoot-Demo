@@ -16,15 +16,17 @@
 			<br/>
 			<br/>
 
-
-
-			<div class="row" id="modal-form">
+			<div class="row">
 				<div class="col-xs-1 ">
 					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
 				</div>
 				<div class="col-xs-4">
-					<select class="select2" data-placeholder="Choose a State...">
+					<select class="form-control chosen-select" data-placeholder="Choose a State...">
+						<option value="">  </option>
 						<option value="AL">Alabama</option>
+						<option value="AK">Alaska</option>
+						<option value="AZ">Arizona</option>
+						<option value="AR">Arkansas</option>
 					</select>
 				</div>
 				<div class="col-xs-2">
@@ -99,16 +101,9 @@
 
 <script type="text/javascript">
 
-
-    $('#modal-form').on('shown.bs.modal', function () {
-        if(!ace.vars['touch']) {
-            $(this).find('.chosen-container').each(function(){
-                $(this).find('a:first-child').css('width' , '210px');
-                $(this).find('.chosen-drop').css('width' , '210px');
-                $(this).find('.chosen-search input').css('width' , '200px');
-            });
-        }
-    })
+    $(document).ready(function() {
+        $('.chosen-select').chosen();
+    });
 
     //textarea的高度随内容发生改变，不产生滚动条
     $("#description").focus(function () {
