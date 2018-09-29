@@ -17,17 +17,9 @@ import javax.persistence.Table;
 @Table(name = "t_zhs_email")
 public class Email extends BaseModel{
 
-    private String host;  //邮件服务器
+    private String senderEmail;  //发件人邮箱
 
-    private String port;  //端口号
-
-    private String name;  //发件人名称
-
-    private String password;   //邮箱密码
-
-    private String from;  //发件人邮箱
-
-    private String to;  //接收人邮箱
+    private String receiveEmail;  //接收人邮箱
 
     private String cc;  //抄送人邮箱
 
@@ -38,52 +30,22 @@ public class Email extends BaseModel{
     private String content;  //邮件内容
 
 
-    public String getHost() {
-        return host;
+    @Column(name = "sender_email")
+    public String getSenderEmail() {
+        return senderEmail;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
     }
 
-    public String getPort() {
-        return port;
+    @Column(name = "receive_email")
+    public String getReceiveEmail() {
+        return receiveEmail;
     }
 
-    public void setPort(String port) {
-        this.port = port;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
+    public void setReceiveEmail(String receiveEmail) {
+        this.receiveEmail = receiveEmail;
     }
 
     public String getCc() {
@@ -110,7 +72,7 @@ public class Email extends BaseModel{
         this.subject = subject;
     }
 
-    @Column(length = 20480)
+    @Column(length = 10240)
     public String getContent() {
         return content;
     }
