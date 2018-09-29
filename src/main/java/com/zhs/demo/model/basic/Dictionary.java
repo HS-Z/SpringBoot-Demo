@@ -18,6 +18,8 @@ public class Dictionary extends BaseModel{
 
     private String type;   //字典表类型
 
+    private Boolean state = Boolean.TRUE;  //状态，默认启用
+
     private String description;  //描述
 
 
@@ -43,6 +45,14 @@ public class Dictionary extends BaseModel{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     @Column(length = 1024)

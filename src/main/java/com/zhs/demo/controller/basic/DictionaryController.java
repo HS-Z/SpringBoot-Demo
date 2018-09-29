@@ -114,11 +114,32 @@ public class DictionaryController {
         if (id != null){
             Dictionary dictionary = dictionaryService.findById(id);
             model.addAttribute("dictionary",dictionary);
+            model.addAttribute("typeName",DictionaryType.valueOf(dictionary.getType()).getValue());
         }
         return "systemManage/editDictionary";
     }
 
 
+    @RequestMapping(value = "deleteById", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Json deleteById(Long id){
+        if (id == null){
+            return Json.fail("关键参数丢失，删除失败");
+        }
+        Json json = dictionaryService.deleteById(id);
+        return json;
+    }
+
+
+    @RequestMapping(value = "changeState", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Json changeState(Long id, Boolean state){
+        if (id == null){
+            return Json.fail("关键参数丢失，删除失败");
+        }
+        Json json = dictionaryService.changeState(id,state);
+        return json;
+    }
 
 
 

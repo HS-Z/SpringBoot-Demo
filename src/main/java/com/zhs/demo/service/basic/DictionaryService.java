@@ -72,6 +72,28 @@ public class DictionaryService {
 
 
     /**
+     * 启用与禁用
+     * @param id
+     * @param state
+     * @return
+     */
+    public Json changeState(Long id,Boolean state){
+
+        try {
+            Dictionary dictionary = this.findById(id);
+            if (dictionary == null){
+                return Json.ok("操作失败，关键参数丢失");
+            }
+            dictionary.setState(state);
+            return Json.ok("操作成功");
+        }catch (Exception e){
+            return Json.ok("操作失败");
+        }
+
+    }
+
+
+    /**
      * 新增及编辑功能
      * @param dictionary
      * @return

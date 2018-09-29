@@ -4,7 +4,7 @@
 	<!--导航栏-->
 	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 		<ul class="breadcrumb">
-			<li class="active">编辑</li>
+			<li class="active">编辑[[${typeName}]]</li>
 		</ul>
 	</div>
 
@@ -13,12 +13,14 @@
 		<form>
 
 			<input type="text" id="id" name="id" th:value="${dictionary.id}" hidden="hidden"/>
+			<input type="text" id="type" name="type" th:value="${dictionary.type}" hidden="hidden"/>
 
+			<br/>
 			<br/>
 
 			<div class="row">
 				<div class="col-xs-3 ">
-					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
+					<label class="pull-right vertical-center">[[${typeName}]]编码 <span style="color: red">*</span></label>
 				</div>
 				<div class="col-xs-8">
 					<input type="text" class="form-control pull-left" id="code" name="code" th:value="${dictionary.code}" readonly="readonly" autocomplete="off"/>
@@ -29,10 +31,10 @@
 
 			<div class="row">
 				<div class="col-xs-3 ">
-					<label class="pull-right vertical-center">名称 <span style="color: red">*</span></label>
+					<label class="pull-right vertical-center">[[${typeName}]]名称 <span style="color: red">*</span></label>
 				</div>
 				<div class="col-xs-8">
-					<input type="text" class="form-control pull-left" id="name" name="name" th:value="${dictionary.name}" autocomplete="off"/>
+					<input type="text" class="form-control pull-left" id="dicName" name="name" th:value="${dictionary.name}" autocomplete="off"/>
 				</div>
 			</div>
 
@@ -41,7 +43,7 @@
 
 			<div class="row">
 				<div class="col-xs-3">
-					<label class="pull-right vertical-center">角色描述 <span style="color: red">&nbsp;</span></label>
+					<label class="pull-right vertical-center">[[${typeName}]]描述 <span style="color: red">&nbsp;</span></label>
 				</div>
 				<div class="col-xs-8">
 					<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px" th:text="${dictionary.description}"></textarea>
@@ -100,33 +102,40 @@
 
     function save() {
 
+        var id=$("#id").val();
+        var type=$("#type").val();
         var code=$("#code").val();
-        var name=$("#name").val();
+        var name=$("#dicName").val();
         var description=$("#description").val();
 
         if (isEmptyForString(code)){
-            layer.msg("角色编码不能为空",{icon: 5});
+            layer.msg("编码不能为空",{icon: 5});
             return false;
 		}
         if (isEmptyForString(name)){
-            layer.msg("角色名称不能为空",{icon: 5});
+            layer.msg("名称不能为空",{icon: 5});
             return false;
         }
 
         var formMap = $("form").serialize();  //表单序列化
+        formMap.id=id;
         formMap.code=code;
         formMap.name=name;
         formMap.description=description;
 
         $.ajax({
             type: "Post",
-            url: "roleInfo/saveOrUpdateRoleInfo",
+            url: "dictionary/saveOrEdit",
             data: formMap,
             dataType: "JSON",
             success: function (data) {
                 if (data.success) {
                     layer.msg(data.msg,{icon: 6});
-                    location.reload();
+
+                    $('#Modal').modal('hide');  //关闭模态框
+
+                    reloadJqGrid();
+//                    location.reload();
                 }else {
                     layer.msg(data.msg,{icon: 5});
 				}
