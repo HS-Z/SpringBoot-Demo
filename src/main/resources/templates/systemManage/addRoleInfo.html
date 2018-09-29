@@ -140,7 +140,9 @@
             success: function (data) {
                 if (data.success) {
                     layer.msg(data.msg,{icon: 6});
-                    location.reload();
+                    $('#Modal').modal('hide');  //关闭模态框
+                    reloadJqGrid()
+//                    location.reload();
                 }else {
                     layer.msg(data.msg,{icon: 5});
 				}
