@@ -232,13 +232,35 @@
 								<b class="arrow"></b>
 
 								<ul class="submenu">
-									<li class="menuTest">
-										<a th:href="@{#dictionary/toDictionaryList(type='CODE_RULE')}">
-											<i class="menu-icon"></i>
+									<li class="">
+										<a href="#" class="dropdown-toggle">
+											<i class="menu-icon fa fa-caret-right"></i>
 											邮箱管理
+											<b class="arrow fa fa-angle-down"></b>
 										</a>
 
 										<b class="arrow"></b>
+
+										<ul class="submenu">
+											<li class="menuTest">
+												<a th:href="@{#email/toEmailList(type='INBOX')}">
+													<i class="menu-icon"></i>
+													收件箱
+												</a>
+
+												<b class="arrow"></b>
+											</li>
+
+											<li class="menuTest">
+												<a th:href="@{#email/toDictionaryList(type='OUTBOX')}">
+													<i class="menu-icon"></i>
+													收件箱
+												</a>
+
+												<b class="arrow"></b>
+											</li>
+
+										</ul>
 									</li>
 
 									<li class="">

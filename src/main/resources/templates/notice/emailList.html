@@ -1,0 +1,231 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+	.modal-dialog {
+		width: 700px;
+		margin: 30px auto;
+	}
+</style>
+
+	<div>
+
+		<!--导航栏-->
+		<div class="breadcrumbs" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li>
+					<i class="ace-icon fa fa-list-ul home-icon"></i>
+					<a href="#">系统管理</a>
+				</li>
+				<li>
+					<span>通知管理</span>
+				</li>
+				<li>
+					<span>邮箱管理</span>
+				</li>
+				<li class="active">
+					<span th:text="${typeName}"></span>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="col-xs-12">
+
+			<input id="type" th:value="${type}" hidden="hidden"/>
+
+			<div class="row marginTop">
+				<div class="col-xs-3">
+					<div class="input-group">
+						<input type="text" class="form-control" id="name" name="name" placeholder="请输入编码或名称" autocomplete="off"/>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default no-border btn-sm" onclick="search()">
+								<i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-1 pull-right">
+					<a th:href="@{dictionary/toAdd(type=${type})}" class="form-control btn btn-primary pull-right"
+					   data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">
+						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增</a>
+				</div>
+			</div>
+
+			<br/>
+
+			<table id="grid-table"></table>
+
+			<div id="grid-pager"></div>
+
+		</div>
+
+	</div>
+
+	<!-- 弹出框 -->
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+
+</html>
+
+
+<script type="text/javascript">
+
+
+	//每次隐藏 model 模态框，清除 remote 缓存数据
+    $("#Modal").on("hidden.bs.modal", function() {
+        $(this).removeData("bs.modal");
+    });
+
+
+    $(function(){
+        run_jqGrid_function();
+
+        $("#grid-table").jqGrid('setLabel','rn', '序号', {'text-align':'center','vertical-align':'middle'},'');   //设置序号
+    });
+
+
+    function run_jqGrid_function() {
+        var type = $("#type").val();  //类型
+        jQuery("#grid-table").jqGrid({
+            url: 'dictionary/getDictionaryList',
+            postData: {type:type},
+            datatype: "json",
+            colModel: [
+                {label:'id',name: 'id', index: 'id', hidden:true},
+                {label:'编码',name: 'code', index: 'code', align: "left", editable: true, width:60},
+                {label:'名称',name: 'name', index: 'name', align: "left", editable: true, width:100},
+                {label:'更改时间',name: 'lastUpdateDate', index: 'lastUpdateDate', align: "left", editable: true, width:100, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {label:'描述',name: 'description', index: 'description', align: "left", editable: true, width:200},
+                {label:'状态',name: 'state', index: 'state', align: "left", editable: true, width:60,formatter:state},
+                {label:'操作',name: 'act', index: 'act', sortable: false, formatter: act_f, width:60}
+            ],
+            pager: "#grid-pager",
+            autowidth: true,
+            height: 'auto',
+            viewrecords: true,
+            // caption: "角色列表",
+            sortable: true,
+            sortname:'lastUpdateDate', //设置默认的排序列
+            sortorder:'desc',
+            rownumbers:true,   //显示序列号
+            altRows:true,  //隔行变色
+            rowNum:15,  //每页显示记录数
+            rowList:[15,30,50,100],
+        });
+    }
+
+
+    /*查询*/
+    function search() {
+        var params = {name:$("#name").val(),type:$("#type").val()};
+        $("#grid-table").jqGrid('clearGridData');//清空表格
+        $("#grid-table").jqGrid('setGridParam',{
+            datatype:'json',
+            postData:params,//查询条件
+            page:1
+        }).trigger("reloadGrid");
+    }
+
+
+    /*重新加载表格，不带查询参数*/
+    function reloadJqGrid() {
+        var params = {type:$("#type").val()};
+        $("#grid-table").jqGrid('clearGridData');//清空表格
+        $("#grid-table").jqGrid('setGridParam',{
+            datatype:'json',
+            postData:params,//查询条件
+            page:1
+        }).trigger("reloadGrid");
+    }
+
+
+    function act_f(cellvalue, option, rowObject) {
+        var result;
+        result = '<a href="dictionary/toEdit?id='+rowObject.id+'" title="编辑" class="menuGap" data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">' +
+			'<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>' ;
+        result += '<a href="javascript:void(0)" onclick="Delete('+rowObject.id+')" title="删除" class="menuGap"><i class="fa fa-trash-o fa-lg red" aria-hidden="true"></i></i></a>';
+
+		if(rowObject.state){
+			result += '<a href="javascript:void(0)" onclick="changeState('+rowObject.id+',false)" title="禁用" class="menuGap"><i class="fa fa-ban fa-lg orange" aria-hidden="true"></i></i></a>' ;
+		}else {
+			result += '<a href="javascript:void(0)" onclick="changeState('+rowObject.id+',true)" title="启用" class="menuGap"><i class="fa fa-check fa-lg green" aria-hidden="true"></i></i></a>' ;
+		}
+		return result;
+    }
+
+
+    function state(cellvalue, option, rowObject) {
+        if (cellvalue){
+            return '<span class="label label-5x label-success arrowed arrowed-right">已启用</span>';
+		}else {
+            return '<span class="label label-5x label-warning arrowed arrowed-right">已禁用</span>';
+        }
+    }
+
+
+    function Delete(obj) {
+        if (obj == null){
+            layer.msg("参数丢失，无法删除",{icon: 5});
+            return;
+        }
+
+        layer.msg('确认删除该条数据吗？', {
+            time: 0 //不自动关闭
+            ,btn: ['必须啊', '再考虑']
+            ,yes: function(index){
+                layer.close(index);
+
+                $.ajax({
+                    type: "Post",
+                    url: "dictionary/deleteById",
+                    data: {id:obj},
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (data.success) {
+                            layer.msg(data.msg,{icon: 6});
+
+                            reloadJqGrid();  //不刷新页面，只重新加载列表
+//                            window.location.reload();  //刷新当前页面
+                        }else {
+                            layer.msg(data.msg,{icon: 5});
+                        }
+                    }, error: function (data) {
+
+                    }
+                });
+
+            }
+        });
+    }
+
+
+    function changeState(obj,state) {
+        if (obj == null){
+            layer.msg("参数丢失，无法删除",{icon: 5});
+            return;
+        }
+
+        $.ajax({
+            type: "Post",
+            url: "dictionary/changeState",
+            data: {id:obj, state:state},
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+
+                    reloadJqGrid();  //不刷新页面，只重新加载列表
+//                    window.location.reload();  //刷新当前页面
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+                }
+            }, error: function (data) {
+
+            }
+        });
+    }
+
+</script>

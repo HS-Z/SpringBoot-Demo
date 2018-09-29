@@ -1,6 +1,6 @@
 package com.zhs.demo.controller.basic;
 
-import com.zhs.demo.constant.DictionaryType;
+import com.zhs.demo.constant.DictionaryConstant;
 import com.zhs.demo.model.basic.Dictionary;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +31,7 @@ public class DictionaryController {
     @RequestMapping(value = "toDictionaryList", method = {RequestMethod.GET, RequestMethod.POST})
     public String toDictionaryList(Model model, String type){
         model.addAttribute("type",type);
-        model.addAttribute("typeName", DictionaryType.valueOf(type).getValue());
+        model.addAttribute("typeName", DictionaryConstant.valueOf(type).getValue());
         return "systemManage/dictionaryList";
     }
 
@@ -69,7 +68,7 @@ public class DictionaryController {
         String code = dictionaryService.generateCode(type);
         model.addAttribute("code",code);
         model.addAttribute("type",type);
-        model.addAttribute("typeName",DictionaryType.valueOf(type).getValue());
+        model.addAttribute("typeName", DictionaryConstant.valueOf(type).getValue());
         return "systemManage/addDictionary";
 
     }
@@ -114,7 +113,7 @@ public class DictionaryController {
         if (id != null){
             Dictionary dictionary = dictionaryService.findById(id);
             model.addAttribute("dictionary",dictionary);
-            model.addAttribute("typeName",DictionaryType.valueOf(dictionary.getType()).getValue());
+            model.addAttribute("typeName", DictionaryConstant.valueOf(dictionary.getType()).getValue());
         }
         return "systemManage/editDictionary";
     }

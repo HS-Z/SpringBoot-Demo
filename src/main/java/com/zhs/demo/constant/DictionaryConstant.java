@@ -1,7 +1,7 @@
 package com.zhs.demo.constant;
 
 
-public enum DictionaryType {
+public enum DictionaryConstant {
 
     USER_TYPE("用户类型"),
 
@@ -16,7 +16,7 @@ public enum DictionaryType {
         return value;
     }
 
-    DictionaryType(String value) {
+    DictionaryConstant(String value) {
         this.value = value;
     }
 }
