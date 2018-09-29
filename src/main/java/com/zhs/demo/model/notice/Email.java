@@ -4,10 +4,18 @@ package com.zhs.demo.model.notice;
  * Created by Zhang on 2018/9/27.
  */
 
+import com.zhs.demo.model.basic.BaseModel;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * 邮件基本信息
  */
-public class Email {
+@Entity
+@Table(name = "t_zhs_email")
+public class Email extends BaseModel{
 
     private String host;  //邮件服务器
 
@@ -102,6 +110,7 @@ public class Email {
         this.subject = subject;
     }
 
+    @Column(length = 20480)
     public String getContent() {
         return content;
     }

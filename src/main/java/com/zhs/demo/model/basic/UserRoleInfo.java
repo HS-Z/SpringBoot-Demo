@@ -35,7 +35,7 @@ public class UserRoleInfo extends BaseModel{
         this.roleId = roleId;
     }
 
-    @Column(length = 2048)
+    @Column(length = 1024)
     public String getDescription() {
         return description;
     }

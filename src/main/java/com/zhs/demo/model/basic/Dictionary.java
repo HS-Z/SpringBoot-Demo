@@ -45,7 +45,7 @@ public class Dictionary extends BaseModel{
         this.type = type;
     }
 
-    @Column(length = 2048)
+    @Column(length = 1024)
     public String getDescription() {
         return description;
     }
