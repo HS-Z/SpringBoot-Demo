@@ -39,4 +39,7 @@ public interface DictionaryMapper {
     String getMaxCode(String type);
 
 
+    List<Dictionary> getListByType(String type);
+
+
 }

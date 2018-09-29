@@ -170,4 +170,10 @@ public class DictionaryService {
     }
 
 
+    public List<Dictionary> getListByType(String type){
+        List<Dictionary> dictionaryList = dictionaryMapper.getListByType(type);
+        return dictionaryList;
+    }
+
+
 }

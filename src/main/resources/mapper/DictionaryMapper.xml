@@ -37,8 +37,8 @@
     </select>
 
 
-    <select id="findByCodeAndType" resultMap="dictionaryMap">
-        SELECT * FROM t_zhs_dictionary WHERE code = #{code} AND type = #{type}
+    <select id="getListByType" resultMap="dictionaryMap" parameterType="string">
+        SELECT * FROM t_zhs_dictionary WHERE type = #{type}
     </select>
 
 </mapper>

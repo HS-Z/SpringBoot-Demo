@@ -35,6 +35,9 @@
 	<!-- ace styles -->
 	<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 
+	<link rel="stylesheet" href="assets/css/chosen.min.css" />
+	<link rel="stylesheet" href="/css/select2.min.css" />
+
 	<!-- inline styles related to this page -->
 
 	<!-- ace settings handler -->
@@ -49,6 +52,7 @@
 
 	<script src="/js/jQuery/jquery-1.12.4.js"></script>
 	<script src="/js/layer/layer.js"></script>
+	<script src="/js/select2.min.js"></script>
 	<!--自定义js-->
 	<script src="/js/customer.js"></script>
 </head>
@@ -264,7 +268,7 @@
 									</li>
 
 									<li class="menuTest">
-										<a th:href="@{#dictionary/toDictionaryList(type='MESSAGE_TYPE')}">
+										<a th:href="@{#message/toMessageList}">
 											<i class="menu-icon"></i>
 											消息管理
 										</a>
@@ -430,6 +434,7 @@
 <script src="assets/js/jquery.flot.min.js"></script>
 <script src="assets/js/jquery.flot.pie.min.js"></script>
 <script src="assets/js/jquery.flot.resize.min.js"></script>
+<script src="assets/js/chosen.jquery.min.js"></script>
 
 <!-- ace scripts -->
 <script src="assets/js/ace-elements.min.js"></script>

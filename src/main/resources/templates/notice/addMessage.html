@@ -1,0 +1,171 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" href="assets/css/chosen.min.css" />
+
+	<!--导航栏-->
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb col-xs-3">
+			<li class="active">新增消息</li>
+		</ul>
+	</div>
+
+	<div class="col-xs-12" id="formData" style="background: white">
+
+		<form>
+
+			<br/>
+			<br/>
+
+
+
+			<div class="row" id="modal-form">
+				<div class="col-xs-1 ">
+					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-4">
+					<select class="select2" data-placeholder="Choose a State...">
+						<option value="AL">Alabama</option>
+					</select>
+				</div>
+				<div class="col-xs-2">
+					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-4">
+					<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="Choose a State...">
+						<option value="AL">Alabama</option>
+					</select>
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3 ">
+					<label class="pull-right vertical-center">名称 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-8">
+					<input type="text" class="form-control pull-left" id="dicName" name="name"/>  <!--id="name"时，无法取到值-->
+				</div>
+			</div>
+
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="pull-right vertical-center">描述 <span style="color: red">&nbsp;</span></label>
+				</div>
+				<div class="col-xs-8">
+					<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px"></textarea>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+			<div class="row">
+				<div class="col-xs-6 pull-left">
+					<div class="col-xs-4 pull-right">
+						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+						<button type="button" class="form-control pull-right btn btn-primary orange" onclick="save()">确认</button>
+					</div>
+				</div>
+				<div class="col-xs-6 pull-right">
+					<div class="col-xs-4 pull-left">
+						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+						<button type="button" class="form-control pull-left btn" data-dismiss="modal" aria-hidden="true">取消</button>
+					</div>
+				</div>
+			</div>
+
+			<br/>
+			<br/>
+
+		</form>
+
+	</div>
+
+	<div style="display: none">
+		<style>
+			/*内容垂直居中*/
+			.vertical-center{
+				height: 34px;
+				line-height: 34px;
+				overflow: hidden;
+			}
+		</style>
+	</div>
+
+</html>
+
+<script type="text/javascript">
+
+
+    $('#modal-form').on('shown.bs.modal', function () {
+        if(!ace.vars['touch']) {
+            $(this).find('.chosen-container').each(function(){
+                $(this).find('a:first-child').css('width' , '210px');
+                $(this).find('.chosen-drop').css('width' , '210px');
+                $(this).find('.chosen-search input').css('width' , '200px');
+            });
+        }
+    })
+
+    //textarea的高度随内容发生改变，不产生滚动条
+    $("#description").focus(function () {
+        $('textarea').each(function () {
+            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+        }).on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    });
+
+    function save() {
+
+        var code=$("#code").val();
+        var name=$("#dicName").val();
+        var type=$("#type").val();
+        var description=$("#description").val();
+
+        if (isEmptyForString(code)){
+            layer.msg("编码不能为空",{icon: 5});
+            return false;
+		}
+        if (isEmptyForString(name)){
+            layer.msg("名称不能为空",{icon: 5});
+            return false;
+        }
+        if (isEmptyForString(type)){
+            layer.msg("类型不能为空",{icon: 5});
+            return false;
+        }
+
+        var formMap = $("form").serialize();  //表单序列化
+        formMap.code=code;
+        formMap.name=name;
+        formMap.type=type;
+        formMap.description=description;
+
+        $.ajax({
+            type: "Post",
+            url: "dictionary/saveOrEdit",
+            data: formMap,
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+
+                    $('#Modal').modal('hide');  //关闭模态框
+
+                    reloadJqGrid();
+//                    location.reload();
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+				}
+            }, error: function (data) {
+
+            }
+        });
+
+    }
+</script>
