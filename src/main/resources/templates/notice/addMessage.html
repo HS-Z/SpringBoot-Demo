@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-<link rel="stylesheet" href="assets/css/chosen.min.css" />
+<!--<link rel="stylesheet" href="assets/css/chosen.min.css" />-->
 
 	<!--导航栏-->
 	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -17,24 +17,23 @@
 			<br/>
 
 			<div class="row">
-				<div class="col-xs-1 ">
-					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
+				<div class="col-xs-2">
+					<label class="pull-right vertical-center">消息类型 <span style="color: red">*</span></label>
 				</div>
-				<div class="col-xs-4">
-					<select class="form-control chosen-select" data-placeholder="Choose a State...">
-						<option value="">  </option>
-						<option value="AL">Alabama</option>
-						<option value="AK">Alaska</option>
-						<option value="AZ">Arizona</option>
-						<option value="AR">Arkansas</option>
+				<div class="col-xs-3">
+					<select class="form-control chosen-select" id="messageType" name="messageType" data-placeholder="请选择消息类型">
+						<option value="">请选择消息类型</option>
+						<option th:each="dictionary:${dictionaryList}" th:value="${dictionary.code}" th:text="${dictionary.name}"></option>
 					</select>
 				</div>
 				<div class="col-xs-2">
-					<label class="pull-right vertical-center">编码 <span style="color: red">*</span></label>
+					<label class="pull-right vertical-center">发送范围 <span style="color: red">*</span></label>
 				</div>
-				<div class="col-xs-4">
-					<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="Choose a State...">
-						<option value="AL">Alabama</option>
+				<div class="col-xs-3">
+					<select class="chosen-select form-control" id="sendRange" name="sendRange" data-placeholder="请选择发送范围">
+						<option value="">请选择发送范围</option>
+						<option value="AL">全局</option>
+						<option value="AL">个人</option>
 					</select>
 				</div>
 			</div>
@@ -42,22 +41,23 @@
 			<br/>
 
 			<div class="row">
-				<div class="col-xs-3 ">
-					<label class="pull-right vertical-center">名称 <span style="color: red">*</span></label>
+				<div class="col-xs-2">
+					<label class="pull-right vertical-center">标题 <span style="color: red">*</span></label>
 				</div>
 				<div class="col-xs-8">
-					<input type="text" class="form-control pull-left" id="dicName" name="name"/>  <!--id="name"时，无法取到值-->
+					<input type="text" class="form-control pull-left" id="title" name="title"/>  <!--id="name"时，无法取到值-->
 				</div>
 			</div>
 
 			<br/>
 
 			<div class="row">
-				<div class="col-xs-3">
-					<label class="pull-right vertical-center">描述 <span style="color: red">&nbsp;</span></label>
+				<div class="col-xs-2">
+					<label class="pull-right vertical-center">消息内容 <span style="color: red">&nbsp;</span></label>
 				</div>
-				<div class="col-xs-8">
-					<textarea type="text" class="form-control pull-left" id="description" name="description" style="height: 50px"></textarea>
+
+				<div class="col-xs-8" id="editor">
+
 				</div>
 			</div>
 
@@ -66,13 +66,13 @@
 
 			<div class="row">
 				<div class="col-xs-6 pull-left">
-					<div class="col-xs-4 pull-right">
+					<div class="col-xs-3 pull-right">
 						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
 						<button type="button" class="form-control pull-right btn btn-primary orange" onclick="save()">确认</button>
 					</div>
 				</div>
 				<div class="col-xs-6 pull-right">
-					<div class="col-xs-4 pull-left">
+					<div class="col-xs-3 pull-left">
 						<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
 						<button type="button" class="form-control pull-left btn" data-dismiss="modal" aria-hidden="true">取消</button>
 					</div>
@@ -105,55 +105,46 @@
         $('.chosen-select').chosen();
     });
 
-    //textarea的高度随内容发生改变，不产生滚动条
-    $("#description").focus(function () {
-        $('textarea').each(function () {
-            this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
-        }).on('input', function () {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-    });
+
+    //富文本框
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create();
+
 
     function save() {
 
-        var code=$("#code").val();
-        var name=$("#dicName").val();
-        var type=$("#type").val();
-        var description=$("#description").val();
+        var messageType=$("#messageType").val();
+        var sendRange=$("#sendRange").val();
+        var title=$("#title").val();
 
-        if (isEmptyForString(code)){
-            layer.msg("编码不能为空",{icon: 5});
+        var content=editor.txt.html();  //富文本框内容
+
+        if (isEmptyForString(messageType)){
+            layer.msg("消息类型不能为空",{icon: 5});
             return false;
 		}
-        if (isEmptyForString(name)){
-            layer.msg("名称不能为空",{icon: 5});
+        if (isEmptyForString(title)){
+            layer.msg("标题不能为空",{icon: 5});
             return false;
         }
-        if (isEmptyForString(type)){
-            layer.msg("类型不能为空",{icon: 5});
-            return false;
-        }
-
-        var formMap = $("form").serialize();  //表单序列化
-        formMap.code=code;
-        formMap.name=name;
-        formMap.type=type;
-        formMap.description=description;
+		var formData = {
+            messageType:messageType,
+            sendRange:sendRange,
+            title:title,
+            content:content
+		};
 
         $.ajax({
             type: "Post",
-            url: "dictionary/saveOrEdit",
-            data: formMap,
+            url: "message/saveOrEdit",
+            data: formData,
             dataType: "JSON",
             success: function (data) {
                 if (data.success) {
                     layer.msg(data.msg,{icon: 6});
 
-                    $('#Modal').modal('hide');  //关闭模态框
-
-                    reloadJqGrid();
-//                    location.reload();
+                    window.history.go(-1);  //返回上一页并刷新
                 }else {
                     layer.msg(data.msg,{icon: 5});
 				}
@@ -161,6 +152,6 @@
 
             }
         });
-
     }
+
 </script>

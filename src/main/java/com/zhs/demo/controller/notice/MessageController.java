@@ -5,8 +5,11 @@ import com.zhs.demo.model.basic.Dictionary;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
+import com.zhs.demo.model.notice.Message;
 import com.zhs.demo.service.basic.DictionaryService;
 import com.zhs.demo.service.notice.MessageService;
+import com.zhs.demo.utils.Json;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,5 +62,33 @@ public class MessageController {
         model.addAttribute("dictionaryList",dictionaryList);
 
         return "notice/addMessage";
+    }
+
+
+    /**
+     * 新增及编辑功能
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "saveOrEdit",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public Json saveOrEdit(Message message){
+        Json json = new Json();
+
+        try{
+            if (StringUtils.isBlank(message.getMessageType()) || StringUtils.isBlank(message.getSendRange()) || StringUtils.isBlank(message.getTitle())){
+                json.setSuccess(false);
+                json.setMsg("必填字段不能为空");
+                return json;
+            }
+
+            json = messageService.saveOrUpdate(message);
+
+        }catch (Exception e){
+            json.setSuccess(false);
+            json.setMsg("操作失败");
+        }
+
+        return json;
     }
 }
