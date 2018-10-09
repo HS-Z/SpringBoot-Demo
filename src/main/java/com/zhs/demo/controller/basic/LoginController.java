@@ -100,7 +100,7 @@ public class LoginController {
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(Model model){
-        logger.info("用户登陆成功");
+
         SessionInfo sessionInfo=sessionUtils.getSessionInfo();
         if (sessionInfo == null){
             return "login";
@@ -114,6 +114,8 @@ public class LoginController {
         if (userInfo == null){
             return "login";
         }
+
+        logger.info("用户登陆成功，登陆账号为[{}]，用户名为[{}]",sessionInfo.getAccount(),sessionInfo.getUserName());
 
         /*//根据用户查询角色信息（限制一个用户只能属于一个角色）
         UserRoleInfo userRoleInfo=userRoleInfoService.findUserRoleInfoByUserId(userId);
