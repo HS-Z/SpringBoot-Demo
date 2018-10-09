@@ -1,9 +1,9 @@
 package com.zhs.demo.controller.file;
 
+import com.zhs.demo.utils.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,12 +40,12 @@ public class FileController {
      */
     @RequestMapping(value = "uploadFile", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public String uploadFile(@RequestParam("file") MultipartFile file){
+    public Json uploadFile(@RequestParam("file") MultipartFile file){
 
         try{
 
             if (file.isEmpty()){
-                return "上传失败，上传文件为空";
+                return Json.fail("上传失败，上传文件为空");
             }
 
             String fileName=file.getOriginalFilename();   //上传的文件名称
@@ -66,11 +66,11 @@ public class FileController {
 
             file.transferTo(dest);// 文件写入
 
-            return "上传成功";
+            return Json.ok("上传成功");
 
         }catch (Exception e){
-            logger.error("开始上传文件");
-            return "文件上传失败";
+            logger.error("文件上传失败");
+            return Json.fail("文件上传失败");
         }
 
     }
