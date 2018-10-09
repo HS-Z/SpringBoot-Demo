@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<!--导航栏-->
+	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+		<ul class="breadcrumb col-xs-3">
+			<li class="active">文件功能测试</li>
+		</ul>
+	</div>
+
+	<div class="col-xs-12" id="formData" style="background: white">
+
+		<form id="fileForm" action="file/uploadFile" method="post" enctype="multipart/form-data">
+
+			<p><input type="file" name="file"> <input type="button" id="sc" value="上传" onclick="save()">   </p>
+
+			<br/>
+
+		</form>
+
+	</div>
+
+</html>
+
+<script type="text/javascript">
+
+
+
+    function save() {
+
+        var formData = new FormData($( "#fileForm" )[0]);
+
+        $.ajax({
+            type: "Post",
+            url: "file/uploadFile",
+            data: formData,
+            dataType: "JSON",
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+
+                    window.history.go(-1);  //返回上一页并刷新
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+                }
+            }, error: function (data) {
+
+            }
+        });
+    }
+
+</script>
