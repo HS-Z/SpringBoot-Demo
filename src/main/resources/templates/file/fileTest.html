@@ -50,15 +50,19 @@
 
         var formData = new FormData($( "#fileForm" )[0]);
 
+        var test = "test";   //测试内容
+
+        formData.append("test",test);
+
         $.ajax({
             type: "Post",
             url: "file/uploadFile",
             data: formData,
             dataType: "JSON",
             async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
+            cache: false,  //上传文件无需缓存
+            contentType: false,  //必须
+            processData: false,  //用于对data参数进行序列化处理 这里必须false
             success: function (data) {
                 if (data.success) {
                     layer.msg(data.msg,{icon: 6});
@@ -73,6 +77,7 @@
     }
 
 
+    //点击选择文件
     function chooseFile() {
         $("#file").click();
     }

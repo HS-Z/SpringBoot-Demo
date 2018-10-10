@@ -36,12 +36,13 @@ public class FileController {
 
     /**
      * 单个文件上传
-     * @param file
+     * @param file  上传的文件信息
+     * @param test  从前台传来的其他参数（预留）
      * @return
      */
     @RequestMapping(value = "uploadFile", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public Json uploadFile(@RequestParam("file") MultipartFile file){
+    public Json uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("test") String test){
 
         try{
 
