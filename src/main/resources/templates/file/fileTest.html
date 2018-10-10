@@ -1,19 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<!--导航栏-->
-	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
-		<ul class="breadcrumb col-xs-3">
-			<li class="active">文件功能测试</li>
-		</ul>
-	</div>
+<!--导航栏-->
+<div class="breadcrumbs" id="breadcrumbs">
+	<ul class="breadcrumb">
+		<li>
+			<i class="ace-icon fa fa-list-ul home-icon"></i>
+			<a href="#">系统管理</a>
+		</li>
+		<li class="active">文件管理</li>
+	</ul>
+</div>
 
 	<div class="col-xs-12" id="formData" style="background: white">
 
 		<form id="fileForm" action="file/uploadFile" method="post" enctype="multipart/form-data">
 
-			<p><input type="file" name="file"> <input type="button" id="sc" value="上传" onclick="save()">   </p>
+			<!--设置选择文件的按钮透明度为0-->
+			<input type="file" name="file" id="file" style="opacity: 0">
 
-			<br/>
+			<div class="row">
+				<div class="col-xs-4">
+					<div class="input-group">
+						<input type="text" class="form-control" id="fileName" name="fileName" placeholder="上传文件名称" readonly/>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile()">
+								选择文件
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-1">
+					<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+					<button type="button" class="form-control pull-right btn btn-primary orange" onclick="save()">上传</button>
+				</div>
+
+			</div>
 
 		</form>
 
@@ -22,7 +44,6 @@
 </html>
 
 <script type="text/javascript">
-
 
 
     function save() {
@@ -50,5 +71,14 @@
             }
         });
     }
+
+
+    function chooseFile() {
+        $("#file").click();
+    }
+
+    $("#file").change(function () {
+        $('#fileName').val($(this).val());
+    });
 
 </script>

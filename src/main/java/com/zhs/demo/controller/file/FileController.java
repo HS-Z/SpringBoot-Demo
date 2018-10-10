@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,14 +49,21 @@ public class FileController {
                 return Json.fail("上传失败，上传文件为空");
             }
 
-            String fileName=file.getOriginalFilename();   //上传的文件名称
+            String fileName=file.getOriginalFilename();   //上传的文件名称，包括后缀名
             logger.info("开始上传文件，上传的文件名称为[{}]",fileName);
 
-            String suffixName=fileName.substring(fileName.lastIndexOf("."));  //获取文件的后缀名
+            System.out.println("文件的大小为："+file.getContentType());
+            System.out.println("文件的名称为："+file.getName());
+            System.out.println("文件的大小为："+file.getOriginalFilename());
+            System.out.println("文件的大小为："+file.getSize());
 
             String filePath="D://file//";   //上传文件的路径
 
-            String path = filePath + fileName;
+            String newFileName=this.newFileName(filePath,fileName);
+
+            String path = filePath + newFileName;
+
+            System.out.println("保存的文件路径："+path);
 
             File dest = new File(path);
 
@@ -166,5 +174,55 @@ public class FileController {
         }
         return null;
     }
+
+
+    /**
+     * 判断当前文件名在当前路径下是否重复，重复则生成新的文件名称
+     * @param filePath  路径
+     * @param fileName  文件名
+     * @return
+     */
+    public String newFileName(String filePath, String fileName){
+
+        // 获得指定路径下的文件
+        File file = new File(filePath);
+
+        // 获得该文件夹内所有的文件
+        File[] array = file.listFiles();
+
+        ArrayList<String> fileNameList=new ArrayList<>();  //所有文件的名称集合
+
+        for (int i=0; i<array.length; i++){
+            if (array[i].isFile()){  //判断是否是文件
+                fileNameList.add(array[i].getName());
+            }
+        }
+
+        if (fileNameList != null && fileNameList.size() > 0){
+
+            boolean repeat1=fileNameList.contains(fileName);  //判断上传的文件名称是否已存在
+
+            if (repeat1){  //文件名称重复，生成一个新的文件名
+                String stFileName=fileName.substring(0,fileName.lastIndexOf("."));  //文件名称，不包含后缀名
+                String suffixName=fileName.substring(fileName.lastIndexOf("."));  //文件的后缀名
+                int n=1;
+                for (int j=0; j<10000; j++){  //循环10000次都找不到不重复的名称，我是不信的
+
+                    String newFileName=stFileName+"("+n+")"+suffixName;  //新生成的文件名称
+                    boolean repeat=fileNameList.contains(newFileName);  //判断新生成的文件名称是否也重复
+                    if (repeat){  //重复
+                        n=n+1;
+                        continue;
+                    }else {
+                        fileName=newFileName;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return fileName;
+    }
+
 
 }
