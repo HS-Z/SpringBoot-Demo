@@ -205,13 +205,11 @@ public class FileController {
             if (repeat1){  //文件名称重复，生成一个新的文件名
                 String stFileName=fileName.substring(0,fileName.lastIndexOf("."));  //文件名称，不包含后缀名
                 String suffixName=fileName.substring(fileName.lastIndexOf("."));  //文件的后缀名
-                int n=1;
-                for (int j=0; j<10000; j++){  //循环10000次都找不到不重复的名称，我是不信的
+                for (int j=1; j<10000; j++){  //循环10000次都找不到不重复的名称，我是不信的
 
-                    String newFileName=stFileName+"("+n+")"+suffixName;  //新生成的文件名称
+                    String newFileName=stFileName+"("+j+")"+suffixName;  //新生成的文件名称
                     boolean repeat=fileNameList.contains(newFileName);  //判断新生成的文件名称是否也重复
                     if (repeat){  //重复
-                        n=n+1;
                         continue;
                     }else {
                         fileName=newFileName;
