@@ -198,7 +198,7 @@ public class FileController {
             }
         }
 
-        if (fileNameList != null && fileNameList.size() > 0){
+        if (fileNameList.size() > 0){
 
             boolean repeat1=fileNameList.contains(fileName);  //判断上传的文件名称是否已存在
 
@@ -209,9 +209,7 @@ public class FileController {
 
                     String newFileName=stFileName+"("+j+")"+suffixName;  //新生成的文件名称
                     boolean repeat=fileNameList.contains(newFileName);  //判断新生成的文件名称是否也重复
-                    if (repeat){  //重复
-                        continue;
-                    }else {
+                    if (!repeat){  //不重复
                         fileName=newFileName;
                         break;
                     }
