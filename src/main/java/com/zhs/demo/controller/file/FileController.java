@@ -92,7 +92,7 @@ public class FileController {
      */
     @RequestMapping(value = "batchUploadFile", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public String batchUploadFile(HttpServletRequest request){
+    public Json batchUploadFile(HttpServletRequest request){
 
         List<MultipartFile> files=((MultipartHttpServletRequest)request).getFiles("file");
         MultipartFile file = null;
@@ -106,7 +106,7 @@ public class FileController {
                 file=files.get(i);
 
                 if (file.isEmpty()){
-                    return "上传失败，上传文件为空";
+                    return Json.fail("上传失败，上传文件为空");
                 }else {
 
                     try {
@@ -117,15 +117,15 @@ public class FileController {
 
                     }catch (Exception e){
                         outputStream = null;
-                        return "第 " + i + " 个文件上传失败  ==> " + e.getMessage();
+                        return Json.fail("第 " + i + " 个文件上传失败");
                     }
                 }
             }
 
-            return "文件上传成功";
+            return Json.ok("上传成功");
         }
 
-        return "批量上传失败，上为空";
+        return Json.fail("上传失败，上传文件为空");
     }
 
 

@@ -11,44 +11,110 @@
 	</ul>
 </div>
 
-	<div class="col-xs-12" id="formData" style="background: white">
+<div class="col-xs-12" id="formData">
 
-		<form id="fileForm" action="file/uploadFile" method="post" enctype="multipart/form-data">
+	<h4>单文件上传</h4>
 
-			<!--设置选择文件的按钮透明度为0-->
-			<input type="file" name="file" id="file" style="opacity: 0">
+	<form id="fileFormOne" method="post" enctype="multipart/form-data">
 
-			<div class="row">
-				<div class="col-xs-4">
-					<div class="input-group">
-						<input type="text" class="form-control" id="fileName" name="fileName" placeholder="上传文件名称" readonly/>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile()">
-								选择文件
-							</button>
-						</div>
+		<!--样式太丑，不显示-->
+		<input type="file" name="file1" id="file1" style="display: none;">
+
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="fileName1" name="fileName1" placeholder="上传文件名称" readonly/>
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(1)">
+							选择文件
+						</button>
 					</div>
 				</div>
-
-				<div class="col-xs-1">
-					<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
-					<button type="button" class="form-control pull-right btn btn-primary orange" onclick="save()">上传</button>
-				</div>
-
 			</div>
 
-		</form>
+			<div class="col-xs-1">
+				<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+				<button type="button" class="form-control pull-right btn btn-primary orange" onclick="uploadFileOne()">上传</button>
+			</div>
 
-	</div>
+		</div>
+
+	</form>
+
+	<hr/>
+
+</div>
+
+<div class="col-xs-12" id="formDataMore">
+
+	<h4>多文件上传</h4>
+
+	<form id="fileForm" method="post" enctype="multipart/form-data">
+
+		<!--样式太丑，不显示-->
+		<input type="file" name="file2" id="file2" style="display: none;">
+		<input type="file" name="file3" id="file3" style="display: none;">
+		<input type="file" name="file4" id="file4" style="display: none;">
+
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="fileName2" name="fileName2" placeholder="上传文件名称" readonly/>
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(2)">
+							选择文件
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="fileName3" name="fileName3" placeholder="上传文件名称" readonly/>
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(3)">
+							选择文件
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="fileName4" name="fileName4" placeholder="上传文件名称" readonly/>
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(4)">
+							选择文件
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-1">
+				<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
+				<button type="button" class="form-control pull-right btn btn-primary orange" onclick="uploadFileMore()">上传</button>
+			</div>
+
+		</div>
+
+	</form>
+
+	<hr/>
+
+</div>
 
 </html>
 
 <script type="text/javascript">
 
 
-    function save() {
+    function uploadFileOne() {
 
-        var formData = new FormData($( "#fileForm" )[0]);
+        var formData = new FormData($( "#fileFormOne" )[0]);
 
         var test = "test";   //测试内容
 
@@ -77,13 +143,53 @@
     }
 
 
-    //点击选择文件
-    function chooseFile() {
-        $("#file").click();
+    function uploadFileMore() {
+
+        var formData = new FormData($( "#formDataMore" )[0]);
+
+        var test = "test";   //测试内容
+
+        formData.append("test",test);
+
+        $.ajax({
+            type: "Post",
+            url: "file/batchUploadFile",
+            data: formData,
+            dataType: "JSON",
+            async: false,
+            cache: false,  //上传文件无需缓存
+            contentType: false,  //必须
+            processData: false,  //用于对data参数进行序列化处理 这里必须false
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+                    window.location.reload();
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+                }
+            }, error: function (data) {
+
+            }
+        });
     }
 
-    $("#file").change(function () {
-        $('#fileName').val($(this).val());
+
+    //点击选择文件
+    function chooseFile(i) {
+        $("#file"+i).click();
+    }
+
+    $("#file1").change(function () {
+        $('#fileName1').val($(this).val());
+    });
+    $("#file2").change(function () {
+        $('#fileName2').val($(this).val());
+    });
+    $("#file3").change(function () {
+        $('#fileName3').val($(this).val());
+    });
+    $("#file4").change(function () {
+        $('#fileName4').val($(this).val());
     });
 
 </script>
