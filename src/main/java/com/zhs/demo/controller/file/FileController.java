@@ -37,12 +37,12 @@ public class FileController {
     /**
      * 单个文件上传
      * @param file  上传的文件信息
-     * @param test  从前台传来的其他参数（预留）
+     * @param obj  从前台传来的其他参数（预留）
      * @return
      */
     @RequestMapping(value = "uploadFile", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public Json uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("test") String test){
+    public Json uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("obj") String obj){
 
         try{
 
@@ -88,13 +88,14 @@ public class FileController {
     /**
      * 批量上传
      * @param request
+     * @param obj  从前台传来的其他参数（预留）
      * @return
      */
     @RequestMapping(value = "batchUploadFile", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public Json batchUploadFile(HttpServletRequest request){
+    public Json batchUploadFile(HttpServletRequest request, String obj){
 
-        List<MultipartFile> files=((MultipartHttpServletRequest)request).getFiles("file");
+        List<MultipartFile> files=((MultipartHttpServletRequest)request).getFiles("fileMore");
         MultipartFile file = null;
         BufferedOutputStream outputStream = null;
 
@@ -106,12 +107,15 @@ public class FileController {
                 file=files.get(i);
 
                 if (file.isEmpty()){
-                    return Json.fail("上传失败，上传文件为空");
+                    return Json.fail("上传失败，文件为空");
                 }else {
 
                     try {
+
+                        String fileName=file.getOriginalFilename();   //上传的文件名称，包括后缀名
+                        String newFileName=this.newFileName(filePath,fileName);
                         byte[] bytes=file.getBytes();
-                        outputStream = new BufferedOutputStream(new FileOutputStream(new File(filePath + file.getOriginalFilename())));//设置文件路径及名字
+                        outputStream = new BufferedOutputStream(new FileOutputStream(new File(filePath + newFileName)));//设置文件路径及名字
                         outputStream.write(bytes);// 写入
                         outputStream.close();
 
@@ -129,13 +133,20 @@ public class FileController {
     }
 
 
-
-    @RequestMapping("downloadFile")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileName = "aim_test.txt";// 设置文件名，根据业务需要替换成要下载的文件名
+    /**
+     *
+     * @param request
+     * @param response
+     * @param obj  从前台传来的其他参数（预留）
+     * @return
+     */
+    @RequestMapping(value = "downloadFile", method = {RequestMethod.POST,RequestMethod.GET})
+    @ResponseBody
+    public Json downloadFile(HttpServletRequest request, HttpServletResponse response, String obj) {
+        String fileName = "ac.txt";// 设置文件名，根据业务需要替换成要下载的文件名
         if (fileName != null) {
             //设置文件路径
-            String realPath = "D://aim//";
+            String realPath = "D://file//";
             File file = new File(realPath, fileName);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
@@ -152,15 +163,19 @@ public class FileController {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
-                    System.out.println("success");
+
+                    return Json.ok("下载成功");
+
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return Json.fail("下载失败");
                 } finally {
                     if (bis != null) {
                         try {
                             bis.close();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            return Json.fail("下载失败");
                         }
                     }
                     if (fis != null) {
@@ -168,12 +183,17 @@ public class FileController {
                             fis.close();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            return Json.fail("下载失败");
                         }
                     }
                 }
+            }else {
+                return Json.fail("下载失败，下载的文件为空");
             }
+
+        }else {
+            return Json.fail("下载失败，下载的文件为空");
         }
-        return null;
     }
 
 

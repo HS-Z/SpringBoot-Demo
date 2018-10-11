@@ -18,14 +18,14 @@
 	<form id="fileFormOne" method="post" enctype="multipart/form-data">
 
 		<!--样式太丑，不显示-->
-		<input type="file" name="file1" id="file1" style="display: none;">
+		<input type="file" name="file" id="file" style="display: none;">
 
 		<div class="row">
 			<div class="col-xs-4">
 				<div class="input-group">
 					<input type="text" class="form-control" id="fileName1" name="fileName1" placeholder="上传文件名称" readonly/>
 					<div class="input-group-btn">
-						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(1)">
+						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFileOne()">
 							选择文件
 						</button>
 					</div>
@@ -49,60 +49,45 @@
 
 	<h4>多文件上传</h4>
 
-	<form id="fileForm" method="post" enctype="multipart/form-data">
+	<form id="fileFormMore" method="post" enctype="multipart/form-data">
 
 		<!--样式太丑，不显示-->
-		<input type="file" name="file2" id="file2" style="display: none;">
-		<input type="file" name="file3" id="file3" style="display: none;">
-		<input type="file" name="file4" id="file4" style="display: none;">
+		<input type="file" name="fileMore" id="fileMore" style="display: none;" multiple="multiple">  <!--上传多个文件-->
 
 		<div class="row">
 			<div class="col-xs-4">
 				<div class="input-group">
-					<input type="text" class="form-control" id="fileName2" name="fileName2" placeholder="上传文件名称" readonly/>
+					<input type="text" class="form-control" id="fileName2" name="fileName2" placeholder="上传文件数量" readonly/>
 					<div class="input-group-btn">
-						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(2)">
+						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFileMore()">
 							选择文件
 						</button>
 					</div>
 				</div>
 			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="col-xs-4">
-				<div class="input-group">
-					<input type="text" class="form-control" id="fileName3" name="fileName3" placeholder="上传文件名称" readonly/>
-					<div class="input-group-btn">
-						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(3)">
-							选择文件
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="col-xs-4">
-				<div class="input-group">
-					<input type="text" class="form-control" id="fileName4" name="fileName4" placeholder="上传文件名称" readonly/>
-					<div class="input-group-btn">
-						<button type="button" class="btn btn-default no-border btn-sm" onclick="chooseFile(4)">
-							选择文件
-						</button>
-					</div>
-				</div>
-			</div>
-
 			<div class="col-xs-1">
 				<!-- type="button" 阻止表单提交，默认情况下，type为submit-->
 				<button type="button" class="form-control pull-right btn btn-primary orange" onclick="uploadFileMore()">上传</button>
 			</div>
-
 		</div>
-
 	</form>
 
+	<hr/>
+
+</div>
+
+
+<div class="col-xs-12">
+
+	<h4>文件下载</h4>
+
+	<div class="row">
+		<div class="col-xs-1">
+			<!--下载不能异步请求-->
+			<a th:href="@{file/downloadFile}" class="form-control pull-right btn btn-primary orange">下载</a>
+		</div>
+
+	</div>
 	<hr/>
 
 </div>
@@ -116,9 +101,9 @@
 
         var formData = new FormData($( "#fileFormOne" )[0]);
 
-        var test = "test";   //测试内容
+        var obj = "test";   //测试内容
 
-        formData.append("test",test);
+        formData.append("obj",obj);
 
         $.ajax({
             type: "Post",
@@ -145,11 +130,11 @@
 
     function uploadFileMore() {
 
-        var formData = new FormData($( "#formDataMore" )[0]);
+        var formData = new FormData($("#fileFormMore")[0]);
 
-        var test = "test";   //测试内容
+        var obj = "test";   //测试内容
 
-        formData.append("test",test);
+        formData.append("obj",obj);
 
         $.ajax({
             type: "Post",
@@ -175,21 +160,27 @@
 
 
     //点击选择文件
-    function chooseFile(i) {
-        $("#file"+i).click();
+    function chooseFileOne() {
+        $("#file").click();
     }
 
-    $("#file1").change(function () {
-        $('#fileName1').val($(this).val());
+    function chooseFileMore() {
+        $("#fileMore").click();
+    }
+
+    /*单文件*/
+    $("#file").change(function () {
+//		$('#fileName1').val($(this).val());    //显示路径及文件名称
+
+        var file = this.files[0];
+        $('#fileName1').val(file.name);  //不显示路径，只显示文件名
     });
-    $("#file2").change(function () {
-        $('#fileName2').val($(this).val());
-    });
-    $("#file3").change(function () {
-        $('#fileName3').val($(this).val());
-    });
-    $("#file4").change(function () {
-        $('#fileName4').val($(this).val());
+
+    /*多文件*/
+    $("#fileMore").change(function () {
+        var list = this.files;
+
+        $('#fileName2').val(list.length+"个文件");
     });
 
 </script>
