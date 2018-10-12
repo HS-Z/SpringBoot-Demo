@@ -8,6 +8,7 @@ import com.zhs.demo.model.notice.Email;
 import com.zhs.demo.service.basic.RoleInfoService;
 import com.zhs.demo.service.notice.EmailService;
 import com.zhs.demo.utils.Json;
+import com.zhs.demo.utils.PoiUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ public class RoleInfoController {
     private RoleInfoService roleInfoService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private PoiUtils poiUtils;
 
     /**
      * 跳转到角色列表
@@ -72,6 +75,9 @@ public class RoleInfoController {
         String roleCode=roleInfoService.generateCode();
         model.addAttribute("roleCode",roleCode);
         emailService.sendSimpleEmail(new Email());
+
+//        poiUtils.creatBlankXlsx();
+        poiUtils.open();
         return "systemManage/addRoleInfo";
     }
 
