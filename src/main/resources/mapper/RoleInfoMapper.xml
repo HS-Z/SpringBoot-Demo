@@ -35,12 +35,27 @@
 
 
     <select id="findRoleInfoByRoleCode" resultMap="roleInfoMap" parameterType="string">
-        SELECT * FROM  t_zhs_role_info WHERE role_code = #{roleCode}
+        SELECT * FROM t_zhs_role_info WHERE role_code = #{roleCode}
     </select>
 
 
     <select id="findById" resultMap="roleInfoMap" parameterType="long">
-        SELECT * FROM  t_zhs_role_info WHERE id = #{id}
+        SELECT * FROM t_zhs_role_info WHERE id = #{id}
+    </select>
+
+
+    <select id="getAllRoleInfoNotDelete" resultMap="roleInfoMap">
+        SELECT * FROM t_zhs_role_info WHERE deleted = 'F'
+    </select>
+
+
+    <select id="getRoleInfoByIds" resultMap="roleInfoMap" parameterType="string">
+        SELECT * FROM t_zhs_role_info WHERE id in (
+        <foreach collection="ids.split(',')" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+
     </select>
 
 

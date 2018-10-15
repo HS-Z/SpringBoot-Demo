@@ -44,12 +44,8 @@
 				</div>
 				<div class="col-xs-1 pull-right">
 					<a href="javascript:void(0)" class="form-control btn btn-primary pull-right" onclick="exportExcel()">
-						<i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;导出</a>
+						<i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;导出</a>
 				</div>
-				<!--<div class="col-xs-1 pull-right">
-					<a th:href="@{roleInfo/exportExcel34(code='1',type='2',ids='3')}" class="form-control btn btn-primary pull-right">
-						<i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;导出</a>
-				</div>-->
 			</div>
 
 			<br/>
@@ -185,31 +181,21 @@
     }
 
 
-    //导出excel
+    //导出excel，默认导出当前页的全部数据
     function exportExcel() {
-        var code='1';
-        var type='2';
-        var ids='3';
+        var code='role';
+        var type='dataList';
+
+        var ids = $("#grid-table").jqGrid('getDataIDs');;   //获取当前页所有数据的id
+
+		if (ids.length == 0){
+            layer.msg('当前页无数据，无法完成导出',{icon: 5});
+		}
+
+		//将数组拼接成字符串
+		ids = ids.join(',');
 
         window.location.href="roleInfo/exportExcel34?code="+code+"&type="+type+"&ids="+ids;
-
-        /*$.ajax({
-            type: "Post",
-            url: "roleInfo/exportExcel",
-            data: {code:code,type:type,ids:ids},
-            dataType: "JSON",
-            success: function (data) {
-                if (data.success) {
-                    layer.msg(data.msg,{icon: 6});
-                }else {
-                    layer.msg(data.msg,{icon: 5});
-                }
-            }, error: function (data) {
-
-            }
-        });*/
-
-
     }
 
 </script>

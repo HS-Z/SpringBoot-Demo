@@ -57,6 +57,37 @@ public class RoleInfoService {
     }
 
 
+    /**
+     * 查询所有的角色信息，包括已被删除的
+     * @return
+     */
+    public List<RoleInfo> getAllRoleInfo(){
+        List<RoleInfo> roleInfoList=roleInfoRepository.findAll();
+        return roleInfoList;
+    }
+
+
+    /**
+     * 根据多个id查询信息
+     * @param ids
+     * @return
+     */
+    public List<RoleInfo> getRoleInfoByIds(String ids){
+        List<RoleInfo> roleInfoList=roleInfoMapper.getRoleInfoByIds(ids);
+        return roleInfoList;
+    }
+
+
+    /**
+     * 查询所有的角色信息，不包括已被删除的
+     * @return
+     */
+    public List<RoleInfo> getAllRoleInfoNotDelete(){
+        List<RoleInfo> roleInfoList=roleInfoMapper.getAllRoleInfoNotDelete();
+        return roleInfoList;
+    }
+
+
     public Json saveOrUpdate(RoleInfo roleInfo){
 
         SessionInfo sessionInfo = sessionUtils.getSessionInfo();

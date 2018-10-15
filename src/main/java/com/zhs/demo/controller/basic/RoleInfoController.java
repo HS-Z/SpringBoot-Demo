@@ -4,9 +4,7 @@ import com.zhs.demo.model.basic.RoleInfo;
 import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
-import com.zhs.demo.model.notice.Email;
 import com.zhs.demo.service.basic.RoleInfoService;
-import com.zhs.demo.service.notice.EmailService;
 import com.zhs.demo.utils.Json;
 import com.zhs.demo.utils.PoiUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 @Controller
@@ -145,9 +142,14 @@ public class RoleInfoController {
     @RequestMapping(value = "exportExcel34", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
     public Json exportExcel(String code, String type, String ids){
-        Json json = new Json();
-        json = poiUtils.exportExcel("1","2","3","4",null);
-        return json;
+
+        if (StringUtils.isBlank(ids)){
+            return Json.fail("无数据");
+        }
+
+        List<RoleInfo> roleInfoList = roleInfoService.getRoleInfoByIds(ids);  //需要导出的数据
+//        json = poiUtils.exportExcel("1","2","角色信息预览","4",null);
+        return Json.ok("导出成功");
     }
 
 }

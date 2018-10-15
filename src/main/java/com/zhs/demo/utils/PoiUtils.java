@@ -157,6 +157,7 @@ public class PoiUtils {
 
         if (StringUtils.isNotBlank(headName)){   //带头文件表述
             XSSFRow firstRow=sheet.createRow(0);
+            firstRow.setHeight((short)500);   //设置行高
             XSSFCell firstCell=firstRow.createCell(0);
             firstCell.setCellValue(headName);
 
@@ -165,6 +166,8 @@ public class PoiUtils {
             sheet.addMergedRegion(new CellRangeAddress(0,0,0,3));
 
             XSSFRow row2 = sheet.createRow(1);
+            CellStyle style2=this.headStyle(workbook);
+            firstCell.setCellStyle(style);
             row2.createCell(0).setCellValue("角色编码");
             row2.createCell(1).setCellValue("角色名称");
             row2.createCell(2).setCellValue("角色描述");
@@ -212,6 +215,33 @@ public class PoiUtils {
         style.setAlignment(HorizontalAlignment.CENTER);  //水平对齐方式
         style.setVerticalAlignment(VerticalAlignment.CENTER);  //垂直对齐方式
 
+        //设置字体
+        XSSFFont font = workbook.createFont();
+        font.setFontName("宋体");   //设置字体名称
+        font.setFontHeightInPoints((short) 16);  //设置字体大小
+        font.setBold(true);  //设置加粗显示
+
+        style.setFont(font);  //应用字体样式
+
+        //设置自动换行
+        style.setWrapText(true);
+
+        return style;
+
+    }
+
+
+    /**
+     * 设置标题样式
+     * @return
+     */
+    public XSSFCellStyle titleStyle(XSSFWorkbook workbook){
+
+        XSSFCellStyle style=workbook.createCellStyle();
+
+        //设置对齐方式
+        style.setAlignment(HorizontalAlignment.CENTER);  //水平对齐方式
+        style.setVerticalAlignment(VerticalAlignment.CENTER);  //垂直对齐方式
 
         //设置字体
         XSSFFont font = workbook.createFont();
