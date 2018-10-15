@@ -42,6 +42,14 @@
 					   data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">
 						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增</a>
 				</div>
+				<div class="col-xs-1 pull-right">
+					<a href="javascript:void(0)" class="form-control btn btn-primary pull-right" onclick="exportExcel()">
+						<i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;导出</a>
+				</div>
+				<!--<div class="col-xs-1 pull-right">
+					<a th:href="@{roleInfo/exportExcel34(code='1',type='2',ids='3')}" class="form-control btn btn-primary pull-right">
+						<i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;导出</a>
+				</div>-->
 			</div>
 
 			<br/>
@@ -173,6 +181,34 @@
 
             }
         });
+
+    }
+
+
+    //导出excel
+    function exportExcel() {
+        var code='1';
+        var type='2';
+        var ids='3';
+
+        window.location.href="roleInfo/exportExcel34?code="+code+"&type="+type+"&ids="+ids;
+
+        /*$.ajax({
+            type: "Post",
+            url: "roleInfo/exportExcel",
+            data: {code:code,type:type,ids:ids},
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    layer.msg(data.msg,{icon: 6});
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+                }
+            }, error: function (data) {
+
+            }
+        });*/
+
 
     }
 

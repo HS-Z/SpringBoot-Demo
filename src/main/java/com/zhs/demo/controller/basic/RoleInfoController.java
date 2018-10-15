@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 @RequestMapping("roleInfo")
@@ -28,8 +31,6 @@ public class RoleInfoController {
 
     @Autowired
     private RoleInfoService roleInfoService;
-    @Autowired
-    private EmailService emailService;
     @Autowired
     private PoiUtils poiUtils;
 
@@ -74,10 +75,6 @@ public class RoleInfoController {
     public String toAddRoleInfo(Model model){
         String roleCode=roleInfoService.generateCode();
         model.addAttribute("roleCode",roleCode);
-        emailService.sendSimpleEmail(new Email());
-
-//        poiUtils.creatBlankXlsx();
-        poiUtils.open();
         return "systemManage/addRoleInfo";
     }
 
@@ -134,6 +131,22 @@ public class RoleInfoController {
                 json.setMsg("角色信息新增失败");
             }
         }
+        return json;
+    }
+
+
+    /**
+     *
+     * @param code
+     * @param type
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "exportExcel34", method = {RequestMethod.POST,RequestMethod.GET})
+    @ResponseBody
+    public Json exportExcel(String code, String type, String ids){
+        Json json = new Json();
+        json = poiUtils.exportExcel("1","2","3","4",null);
         return json;
     }
 
