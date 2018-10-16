@@ -103,7 +103,7 @@ public class PoiUtils {
         XSSFCellStyle style = workbook.createCellStyle();   //创建样式
 
         //设置背景色
-        style.setFillForegroundColor(IndexedColors.GOLD.index);   //设置单元格背景色
+        style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.index);   //设置单元格背景色
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);  //设置填充模式
 
         //设置边框
@@ -241,6 +241,10 @@ public class PoiUtils {
     public XSSFCellStyle headStyle(XSSFWorkbook workbook){
 
         XSSFCellStyle style=workbook.createCellStyle();
+
+        //设置背景色
+        style.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.index);   //设置单元格背景色
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);  //设置填充模式
 
         //设置对齐方式
         style.setAlignment(HorizontalAlignment.CENTER);  //水平对齐方式
