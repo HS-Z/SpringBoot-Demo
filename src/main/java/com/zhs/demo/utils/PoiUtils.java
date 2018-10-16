@@ -20,8 +20,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 微软office，例如Excel的导入和导出
@@ -132,14 +135,14 @@ public class PoiUtils {
 
 
     /**
-     *
+     * excel导出
      * @param fileName  文件名称
      * @param sheetName
      * @param headName   头名称（可以为空）
-     * @param titleName  标题行名称
+     * @param titleMap  标题行名称
      * @param list  导出的数据
      */
-    public Json exportExcel(String fileName, String sheetName, String headName, String titleName, List<T> list){
+    public Json exportExcel(String fileName, String sheetName, String headName, HashMap<String,String> titleMap, List<Map<String,Object>> list){
 
         if (StringUtils.isBlank(fileName)){
             return Json.fail("文件名称不能为空");
@@ -147,38 +150,65 @@ public class PoiUtils {
         if (StringUtils.isBlank(sheetName)){
             return Json.fail("sheet名称不能为空");
         }
-        if (!(fileName.endsWith(".xlsx") || fileName.endsWith(".xls"))){   //文件名如果不符合标准
-            fileName=fileName+".xlsx";
+        if (!(fileName.endsWith(".xlsx") || fileName.endsWith(".xls"))){   //判断文件后缀名是否符合标准
+            fileName = fileName+".xlsx";
         }
 
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         XSSFSheet sheet = workbook.createSheet(sheetName);
 
-        if (StringUtils.isNotBlank(headName)){   //带头文件表述
-            XSSFRow firstRow=sheet.createRow(0);
-            firstRow.setHeight((short)500);   //设置行高
-            XSSFCell firstCell=firstRow.createCell(0);
-            firstCell.setCellValue(headName);
+        sheet.setDefaultColumnWidth((short) 15);   //设置表格默认宽度
+
+        if (StringUtils.isNotBlank(headName)){   //头名称不为空
+            XSSFRow headRow=sheet.createRow(0);    //第一行
+            headRow.setHeight((short)500);   //设置行高
+            XSSFCell headCell=headRow.createCell(0);
+            headCell.setCellValue(headName);
 
             CellStyle style=this.headStyle(workbook);
-            firstCell.setCellStyle(style);
-            sheet.addMergedRegion(new CellRangeAddress(0,0,0,3));
+            headCell.setCellStyle(style);
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,titleMap.size()-1));
 
-            XSSFRow row2 = sheet.createRow(1);
-            CellStyle style2=this.headStyle(workbook);
-            firstCell.setCellStyle(style);
-            row2.createCell(0).setCellValue("角色编码");
-            row2.createCell(1).setCellValue("角色名称");
-            row2.createCell(2).setCellValue("角色描述");
-            row2.createCell(3).setCellValue("创建时间");
+            //标题行
 
-            XSSFRow row3 = sheet.createRow(2);
-            row3.createCell(0).setCellValue("R1001");
-            row3.createCell(1).setCellValue("管理员");
-            row3.createCell(2).setCellValue("哈哈哈");
-            row3.createCell(3).setCellValue(new Date());
-        }else {
+            XSSFRow titleRow = sheet.createRow(1);   //第二行
+
+            int colNum = 0;   //列序号
+            for(String key : titleMap.keySet()) {
+
+                XSSFCell titleCell=titleRow.createCell(colNum);  //创建标题的单元格
+                titleCell.setCellValue(titleMap.get(key).toString());  //给单元格写数据
+                CellStyle titleStyle=this.titleStyle(workbook);
+                titleCell.setCellStyle(titleStyle);  //设置单元格样式
+                colNum++;  //切换到下个单元格
+            }
+
+            int rowNum = 2;
+            colNum = 0;
+
+            for(int i = 0; i < list.size(); i++) {
+                Map<String, Object> data = list.get(i);
+                XSSFRow contentRow = sheet.createRow(rowNum);
+                for(String key : titleMap.keySet()) {
+                    XSSFCell contentCell=contentRow.createCell(colNum);  //创建单元格
+                    Object value=data.get(key);
+
+                    if (value instanceof String){
+                        contentCell.setCellValue(value.toString());
+                    }else if (value instanceof Date){  //时间格式
+                        Date date = (Date) value;
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        contentCell.setCellValue(format.format(date));
+                    }
+
+                    colNum++;
+                }
+                rowNum++;
+                colNum=0;
+            }
+
+        }else {  //没有头描述
 
         }
 
@@ -188,8 +218,9 @@ public class PoiUtils {
 
             OutputStream output=response.getOutputStream();
             response.reset();
-            response.setHeader("Content-disposition", "attachment; filename="+fileName);
-            response.setContentType("application/msexcel");
+            response.setContentType("application/x-download");
+            response.setCharacterEncoding("utf-8");  //处理乱码问题
+            response.setHeader("Content-disposition", "attachment; filename="+new String(fileName.getBytes("gbk"), "iso8859-1"));
             workbook.write(output);
             output.close();
 
@@ -217,7 +248,7 @@ public class PoiUtils {
 
         //设置字体
         XSSFFont font = workbook.createFont();
-        font.setFontName("宋体");   //设置字体名称
+        font.setFontName("等线");   //设置字体名称
         font.setFontHeightInPoints((short) 16);  //设置字体大小
         font.setBold(true);  //设置加粗显示
 
@@ -245,8 +276,8 @@ public class PoiUtils {
 
         //设置字体
         XSSFFont font = workbook.createFont();
-        font.setFontName("宋体");   //设置字体名称
-        font.setFontHeightInPoints((short) 16);  //设置字体大小
+        font.setFontName("等线");   //设置字体名称
+        font.setFontHeightInPoints((short) 12);  //设置字体大小
         font.setBold(true);  //设置加粗显示
 
         style.setFont(font);  //应用字体样式

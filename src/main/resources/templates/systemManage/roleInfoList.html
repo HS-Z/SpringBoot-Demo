@@ -186,7 +186,7 @@
         var code='role';
         var type='dataList';
 
-        var ids = $("#grid-table").jqGrid('getDataIDs');;   //获取当前页所有数据的id
+        var ids = $("#grid-table").jqGrid('getDataIDs');  //获取当前页所有数据的id
 
 		if (ids.length == 0){
             layer.msg('当前页无数据，无法完成导出',{icon: 5});
@@ -195,7 +195,7 @@
 		//将数组拼接成字符串
 		ids = ids.join(',');
 
-        window.location.href="roleInfo/exportExcel34?code="+code+"&type="+type+"&ids="+ids;
+        window.location.href="roleInfo/exportExcel?code="+code+"&type="+type+"&ids="+ids;
     }
 
 </script>

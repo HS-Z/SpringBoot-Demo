@@ -5,6 +5,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,6 +63,31 @@ public class CommonUtils {
         String newData = new SimpleHash("MD5", data, newSalt, 1024).toHex();
 
         return newData;
+    }
+
+
+    /**
+     * 获取当前时间
+     * @return
+     */
+    public String getDateString(){
+        SimpleDateFormat format=new SimpleDateFormat("yyyyMMddHHmmss");
+        String date=format.format(new Date());
+        return date;
+    }
+
+
+    /**
+     * 生成文件名
+     * @param type
+     * @param suffix  后缀
+     * @return
+     */
+    public String getFileName(String type, String suffix){
+        SimpleDateFormat format=new SimpleDateFormat("yyyyMMddHHmmss");
+        String date=format.format(new Date());
+        String fileName=type + date + suffix;
+        return fileName;
     }
 
 }

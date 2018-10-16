@@ -5,9 +5,11 @@ import com.zhs.demo.model.jqGrid.JqGridQueryVo;
 import com.zhs.demo.model.jqGrid.JqGridRequest;
 import com.zhs.demo.model.jqGrid.JqGridResponse;
 import com.zhs.demo.service.basic.RoleInfoService;
+import com.zhs.demo.utils.CommonUtils;
 import com.zhs.demo.utils.Json;
 import com.zhs.demo.utils.PoiUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -30,6 +32,8 @@ public class RoleInfoController {
     private RoleInfoService roleInfoService;
     @Autowired
     private PoiUtils poiUtils;
+    @Autowired
+    private CommonUtils commonUtils;
 
     /**
      * 跳转到角色列表
@@ -133,13 +137,13 @@ public class RoleInfoController {
 
 
     /**
-     *
+     * 导出excel
      * @param code
      * @param type
      * @param ids
      * @return
      */
-    @RequestMapping(value = "exportExcel34", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "exportExcel", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
     public Json exportExcel(String code, String type, String ids){
 
@@ -148,7 +152,35 @@ public class RoleInfoController {
         }
 
         List<RoleInfo> roleInfoList = roleInfoService.getRoleInfoByIds(ids);  //需要导出的数据
-        poiUtils.exportExcel("1","2","角色信息预览","4",null);
+
+        HashMap<String,String> titleMap=new HashMap<>();  //标题行
+        titleMap.put("roleCode","角色编码");
+        titleMap.put("roleName","角色名称");
+        titleMap.put("roleType","角色类型");
+        titleMap.put("createDate","创建时间");
+        titleMap.put("description","角色描述");
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        //重新封装数据
+        if (roleInfoList != null && roleInfoList.size() > 0){
+            for (RoleInfo roleInfo:roleInfoList){
+
+                Map<String,Object> hashMap = new HashMap<>();
+
+                hashMap.put("roleCode",roleInfo.getRoleCode());
+                hashMap.put("roleName",roleInfo.getRoleName());
+                hashMap.put("roleType",roleInfo.getRoleType());
+                hashMap.put("description",roleInfo.getDescription());
+                hashMap.put("createDate",roleInfo.getCreateDate());
+
+                list.add(hashMap);
+
+            }
+
+        }
+        String fileName=commonUtils.getFileName("角色信息",".xlsx");
+        poiUtils.exportExcel(fileName,"角色信息","角色信息预览",titleMap,list);
         return null;   //此处必须要返回null，不然会报错
     }
 
