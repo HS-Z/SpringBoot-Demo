@@ -148,8 +148,8 @@ public class RoleInfoController {
         }
 
         List<RoleInfo> roleInfoList = roleInfoService.getRoleInfoByIds(ids);  //需要导出的数据
-//        json = poiUtils.exportExcel("1","2","角色信息预览","4",null);
-        return Json.ok("导出成功");
+        poiUtils.exportExcel("1","2","角色信息预览","4",null);
+        return null;   //此处必须要返回null，不然会报错
     }
 
 }
