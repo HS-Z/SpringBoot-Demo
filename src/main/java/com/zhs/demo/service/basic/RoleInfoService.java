@@ -12,10 +12,13 @@ import com.zhs.demo.service.PageHelperService;
 import com.zhs.demo.utils.Json;
 import com.zhs.demo.utils.SessionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -130,6 +133,49 @@ public class RoleInfoService {
     }
 
 
+    /**
+     * 批量保存
+     * @param roleInfoList
+     * @return
+     */
+    public Json saveAll(List<RoleInfo> roleInfoList){
+        try {
+            roleInfoRepository.saveAll(roleInfoList);
+            return Json.ok("批量保存角色信息成功");
+        }catch (Exception e){
+            return Json.fail("批量保存角色信息失败");
+        }
+    }
+
+
+    /**
+     * 保存excel的导入数据
+     * @param roleInfoList
+     * @return
+     */
+    public Json saveExcelData(List<RoleInfo> roleInfoList){
+        for (RoleInfo roleInfo:roleInfoList){
+            if (roleInfo.getCreateDate() == null){  //创建时间
+                roleInfo.setCreateDate(new Date());
+            }
+            if (roleInfo.getLastUpdateDate() == null){  //最近更改时间
+                roleInfo.setLastUpdateDate(new Date());
+            }
+            if (StringUtils.isBlank(roleInfo.getRoleCode())){  //角色编码
+                String roleCode=this.generateCode();
+                roleInfo.setRoleCode(roleCode);
+            }
+            if (roleInfo.getDeleted() == null){
+                roleInfo.setDeleted(Boolean.FALSE);
+            }
+        }
+
+        this.saveAll(roleInfoList);
+
+        return Json.ok("成功");
+    }
+
+
     public Json deleteRoleInfo(Long roleId){
 
         try {
@@ -167,6 +213,65 @@ public class RoleInfoService {
         }
 
         return maxRoleCode;
+    }
+
+
+    /**
+     * 导入excel
+     * @param inputStream
+     * @return
+     */
+    public List<RoleInfo> uploadExcel(InputStream inputStream){
+
+        List<RoleInfo> roleInfoList=new ArrayList<>();
+
+        try {
+            Workbook workbook = WorkbookFactory.create(inputStream);
+
+            if (workbook == null){
+                throw new RuntimeException("创建excel工作簿失败");
+            }
+
+            Sheet sheet = null;
+            Row row = null;
+            Cell cell = null;
+
+            //遍历excel中的所有sheet，但一般只会有一个
+            for (int i=0; i<workbook.getNumberOfSheets(); i++){
+                sheet = workbook.getSheetAt(i);
+                if (sheet == null){
+                    continue;
+                }
+
+                //判断excel格式是否符合标准
+                row = sheet.getRow(0);
+                if (row.getPhysicalNumberOfCells() != 2){  //标准应该为两列，角色名称，角色描述
+                    throw new RuntimeException("创建excel工作簿失败");
+                }
+                //遍历当前sheet中的除标题以外的行
+                for (int j=1; j<=sheet.getLastRowNum(); j++){
+                    row = sheet.getRow(j);
+                    if (row == null){
+                        continue;
+                    }
+
+                    RoleInfo roleInfo = new RoleInfo();
+                    if (row.getCell(0) != null){
+                        roleInfo.setRoleName(row.getCell(0).toString());
+                    }
+                    if (row.getCell(1) != null){
+                        roleInfo.setDescription(row.getCell(1).toString());
+                    }
+
+                    roleInfoList.add(roleInfo);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return roleInfoList;
+
     }
 
 

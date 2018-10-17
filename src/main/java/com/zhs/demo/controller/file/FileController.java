@@ -68,7 +68,7 @@ public class FileController {
 
             File dest = new File(path);
 
-            // 检测目类是否存在
+            // 检测目录是否存在
             if (!dest.getParentFile().exists()) {
                 dest.getParentFile().mkdirs();  // 新建文件夹
             }

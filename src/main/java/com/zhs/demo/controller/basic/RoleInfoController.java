@@ -17,8 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -182,6 +186,48 @@ public class RoleInfoController {
         String fileName=commonUtils.getFileName("角色信息",".xlsx");
         poiUtils.exportExcel(fileName,"角色信息","角色信息预览",titleMap,list);
         return null;   //此处必须要返回null，不然会报错
+    }
+
+
+    /**
+     * 导入excel
+     * @param file  上传的文件信息
+     * @param obj  从前台传来的其他参数（预留）
+     * @return
+     */
+    @RequestMapping(value = "uploadExcel", method = {RequestMethod.POST,RequestMethod.GET})
+    @ResponseBody
+    public Json uploadExcel(@RequestParam("file") MultipartFile file, @RequestParam("obj") String obj){
+
+        try{
+
+            if (file.isEmpty()){
+                return Json.fail("导入失败，Excel文件为空");
+            }
+
+            String fileName=file.getOriginalFilename();   //上传的文件名称，包括后缀名
+            String suffixName=fileName.substring(fileName.lastIndexOf("."));  //文件的后缀名
+
+            if(!(suffixName.equals(".xls") || suffixName.equals(".xlsx"))){
+                return Json.fail("导入失败，格式不正确");
+            }
+
+            logger.info("开始导入文件，上传的文件名称为[{}]",fileName);
+
+            InputStream inputStream=file.getInputStream();
+
+            List<RoleInfo> roleInfoList = roleInfoService.uploadExcel(inputStream);
+
+            roleInfoService.saveExcelData(roleInfoList);  //保存数据
+
+
+            return Json.ok("Excel导入成功");
+
+        }catch (Exception e){
+            logger.error("Excel导入失败");
+            return Json.fail("Excel导入失败");
+        }
+
     }
 
 }
