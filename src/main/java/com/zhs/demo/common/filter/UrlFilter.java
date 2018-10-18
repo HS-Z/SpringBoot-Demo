@@ -1,6 +1,7 @@
 package com.zhs.demo.common.filter;
 
-import com.zhs.demo.common.exception.SessionExpireException;
+
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.FilterConfig;
@@ -13,7 +14,8 @@ import java.io.IOException;
 public class UrlFilter implements Filter{
 
 
-    String[] includeUrls = new String[]{"/login","/loginSystem","/register"};   //设置不被拦截的请求
+    //设置不需要被拦截的请求
+    private String[] includeUrls = new String[]{"/login","/loginSystem","/register","/index"};
 
 
     @Override
@@ -26,12 +28,17 @@ public class UrlFilter implements Filter{
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        System.out.println("请求路径为："+request.getRequestURI());
 
         //获取当前 request 中的session，如果 session 为null，不创建新的 session
         HttpSession session = request.getSession(false);
 
         filterChain.doFilter(servletRequest, servletResponse);
+
+        String url = request.getRequestURI();
+
+        boolean o=isNeedFilter(url);
+        System.out.println("请求地址为："+url);
+        System.out.println("是否被拦截："+o);
 
 
 
@@ -66,17 +73,27 @@ public class UrlFilter implements Filter{
 
 
     /**
-     * 判断当前请求是否需要拦截
-     * @param uri
+     * 判断请求地址是否需要拦截
+     * @param url
      * @return
      */
-    public boolean isNeedFilter(String uri) {
+    public boolean isNeedFilter(String url){
+
+        if (StringUtils.isBlank(url)){
+            return false;
+        }
+
+        //判断是否是静态资源
+        if (url.contains(".js") || url.contains(".css") || url.contains(".")){
+            return false;   //静态资源不需要被拦截
+        }
 
         for (String includeUrl : includeUrls) {
-            if(includeUrl.equals(uri)) {
+            if(includeUrl.equals(url)) {
                 return false;
             }
         }
+
         return true;
     }
 
