@@ -33,7 +33,11 @@ public class ShiroConfig {
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
 
         // 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/static*", "anon");  //设置html页面访问static下的静态资源不被拦截
+        filterChainDefinitionMap.put("/static/**", "anon");  //设置html页面访问static下的静态资源不被拦截
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/fonts/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
 
         filterChainDefinitionMap.put("/login", "anon");   //跳转到登陆页面
         filterChainDefinitionMap.put("/register", "anon");  //跳转到注册页面
