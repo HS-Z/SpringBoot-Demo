@@ -7,6 +7,8 @@ public enum DictionaryConstant {
 
     ROLE_TYPE("角色类型"),
 
+    JOB_TYPE("职业类型"),
+
     MESSAGE_TYPE("消息类型");
 
 

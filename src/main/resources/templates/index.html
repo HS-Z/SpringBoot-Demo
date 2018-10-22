@@ -220,6 +220,13 @@
 
 						<ul class="submenu">
 							<li class="menuTest">
+								<a th:href="@{#friend/toFriendList}">
+									<i class="menu-icon fa fa-caret-right"></i>
+									朋友管理
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li class="menuTest">
 								<a th:href="@{#roleInfo/toRoleInfoList}">
 									<i class="menu-icon fa fa-caret-right"></i>
 									角色管理
@@ -295,6 +302,15 @@
 										<a th:href="@{#dictionary/toDictionaryList(type='MESSAGE_TYPE')}">
 											<i class="menu-icon"></i>
 											消息类型
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+
+									<li class="menuTest">
+										<a th:href="@{#dictionary/toDictionaryList(type='JOB_TYPE')}">
+											<i class="menu-icon"></i>
+											职业类型
 										</a>
 
 										<b class="arrow"></b>
