@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.zhs.demo.dao.MybatisMapper.common.CityMapper">
+
+
+    <resultMap id="cityMap" type="com.zhs.demo.model.common.City">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+
+    <select id="getAllProvince" resultMap="cityMap">
+        SELECT * FROM t_zhs_city WHERE type = 'province'
+    </select>
+
+
+    <select id="getCityByProvince" resultMap="cityMap" parameterType="string">
+        SELECT * FROM t_zhs_city WHERE code LIKE CONCAT(#{provinceCode}, '%') and type = 'city'
+    </select>
+
+
+    <select id="getCountyByCity" resultMap="cityMap" parameterType="string">
+        SELECT * FROM t_zhs_city WHERE code LIKE CONCAT(#{cityCode}, '%') and type = 'county'
+    </select>
+
+</mapper>

@@ -1,5 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
+
+    <script src="/js/area.js"></script>   <!--省市县三级联动-->
+
+
 	<!--导航栏-->
 	<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 		<ul class="breadcrumb col-xs-3">
@@ -32,6 +36,17 @@
 						<option value="">请选择发送范围</option>
 						<option value="AL">全局</option>
 						<option value="AL">个人</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-2">
+					<label class="pull-right vertical-center">省份 <span style="color: red">*</span></label>
+				</div>
+				<div class="col-xs-3">
+					<select class="form-control chosen-select" id="province" name="province" data-placeholder="请选择省份名称">
+						<option value="">请选择省份名称</option>
 					</select>
 				</div>
 			</div>
@@ -100,6 +115,33 @@
 
     $(document).ready(function() {
         $('.chosen-select').chosen();
+    });
+
+
+    $("#province").click(function () {
+
+        alert("nihao");
+
+        $.ajax({
+            type: "Post",
+            url: "cityInfo/getAreaList",
+            data: {code:"",type:"province"},
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    $("#province").empty();
+                    $("#province").append("<option value=''>请选择省份名称</option>");
+                    $.each(data.obj, function (i, item) {
+                        $("#province").append("<option value=' "+ item.id +" '> "+ item.name +" </option>");
+                    });
+                }else {
+                    layer.msg(data.msg,{icon: 5});
+                }
+            }, error: function (data) {
+
+            }
+        });
+
     });
 
 

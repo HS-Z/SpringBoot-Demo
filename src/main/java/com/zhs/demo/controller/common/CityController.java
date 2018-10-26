@@ -117,4 +117,28 @@ public class CityController {
 
     }
 
+
+    /**
+     *
+     * @param code  行政区域编码
+     * @param type  行政区域类别
+     * @return
+     */
+    @RequestMapping(value = "getAreaList", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Json getAreaList(String code, String type){
+        Json json = new Json();
+
+        try {
+            List<City> list = commonService.getCityList(code,type);
+            json.setSuccess(true);
+            json.setObj(list);
+        }catch (Exception e){
+            json.setSuccess(false);
+            json.setMsg("查询行政信息失败");
+        }
+
+        return json;
+    }
+
 }

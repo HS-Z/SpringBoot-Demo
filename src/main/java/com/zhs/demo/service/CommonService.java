@@ -6,6 +6,7 @@ import com.zhs.demo.model.common.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +36,27 @@ public class CommonService {
      */
     public void saveCity(List<City> cityList){
         cityRepository.saveAll(cityList);
+    }
+
+
+    /**
+     * 查询行政信息集合
+     * @param code
+     * @param type
+     * @return
+     */
+    public List<City> getCityList(String code, String type){
+        List<City> list ;
+        if ("province".equals(type)){   //省份信息
+            list = cityMapper.getAllProvince();
+        }else if ("city".equals(type)){   //行政市信息
+            code = code.substring(0,1);
+            list = cityMapper.getCityByProvince(code);
+        }else {
+            code = code.substring(0,3);
+            list = cityMapper.getCountyByCity(code);
+        }
+        return list;
     }
 
 
